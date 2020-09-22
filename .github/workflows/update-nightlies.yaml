@@ -16,7 +16,7 @@ name: Update Nightlies
 
 on:
   schedule:
-  - cron: '0 19 * * 1-5' # '0 9 * * 1-5' # 2am Pacific on weekdays
+  - cron: '0 20 * * 1-5' # '0 9 * * 1-5' # 2am Pacific on weekdays
 
 jobs:
 
@@ -42,7 +42,7 @@ jobs:
           files: net-contour.yaml contour.yaml
         - nightly: net-istio
           directory: ./third_party/
-          files: net-istio
+          files: net-istio.yaml
         - nightly: net-kourier
           directory: ./third_party/kourier-latest
           files: kourier.yaml
