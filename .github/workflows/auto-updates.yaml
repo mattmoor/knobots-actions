@@ -1,0 +1,296 @@
+# Copyright 2020 The Knative Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Auto Updates
+
+on:
+  schedule:
+  - cron:  '* * * * *' # '0 2,14 * * 1-5' # 7am/pm Pacific on weekdays
+
+jobs:
+  update-deps:
+    name: Update Deps and Codegen
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # Keep running if one leg fails.
+      matrix:
+        name:
+        - 'mattmoor/serving' # 'knative/serving'
+
+        # Map to more specialized parameters.
+        include:
+        - name: 'mattmoor/serving' # 'knative/serving'
+          organization: 'knative'
+          repository: 'serving'
+
+    env:
+      GO111MODULE: on
+
+    steps:
+
+    - name: Set up Go 1.15.x
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15.x
+      id: go
+
+    - name: Check out code onto GOPATH
+      uses: actions/checkout@v2
+      with:
+        repository: ${{ matrix.name }}
+
+    - name: Update Deps and Codegen
+      shell: bash
+      run: |
+        # Determine the name of the go module.
+        export MODULE_NAME=$(go mod graph | cut -d' ' -f 1 | grep -v '@' | head -1)
+
+        # TODO(mattmoor): Move this into `./hack/update-codegen.sh`
+        TMP_DIR="$(mktemp -d)"
+        trap 'rm -rf ${TMP_DIR} && rm -rf $SCRIPT_ROOT/vendor' EXIT
+        export GOPATH=${GOPATH:-${TMP_DIR}}
+        TMP_REPO_PATH="${TMP_DIR}/src/${MODULE_NAME}"
+        mkdir -p "$(dirname "${TMP_REPO_PATH}")" && ln -s "${GITHUB_WORKSPACE}" "${TMP_REPO_PATH}"
+
+        ./hack/update-deps.sh --upgrade
+        # We may pull in code-generator updates, or not have generated code.
+        [[ ! -f hack/update-codegen.sh ]] || ./hack/update-codegen.sh
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        # Who to look like
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        committer: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
+        author: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
+
+        # Where to stage the change.
+        # push-to-fork: mattmoor/${{ matrix.repository }}
+        branch: auto-updates/update-deps
+        signoff: true
+        delete-branch: true
+
+        # Description of the change and PR body.
+        commit-message: 'upgrade to latest dependencies'
+        title: '[Automated] Upgrade to latest dependencies'
+        body: |
+          Produced via:
+          ```shell
+          ./hack/update-deps.sh --upgrade
+          ./hack/update-codegen.sh
+          ```
+
+  gotool:
+    name: Go Format and Imports
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # Keep running if one leg fails.
+      matrix:
+        name:
+        - 'mattmoor/serving' # 'knative/serving'
+
+        # Map to more specialized parameters.
+        include:
+        - name: 'mattmoor/serving' # 'knative/serving'
+          organization: 'knative'
+          repository: 'serving'
+    env:
+      GO111MODULE: on
+
+    steps:
+
+    - name: Set up Go 1.15.x
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15.x
+      id: go
+
+    - name: Check out code onto GOPATH
+      uses: actions/checkout@v2
+      with:
+        repository: ${{ matrix.name }}
+
+    - name: Install Dependencies
+      run: |
+        cd $(mktemp -d)
+        go get golang.org/x/tools/cmd/goimports
+
+    - name: Go Format and Imports
+      shell: bash
+      run: |
+        export FILES=( $(find -path './vendor' -prune -o -path './third_party' -prune -o -name '*.pb.go' -prune -o -type f -name '*.go' -print) )
+        if ! (( ${#FILES[@]} > 0 )); then
+          goimports -w "${FILES[@]}"
+          gofmt -s -w  "${FILES[@]}"
+        else
+          echo No Go files found.
+        fi
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        # Who to look like
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        committer: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
+        author: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
+
+        # Where to stage the change.
+        # push-to-fork: mattmoor/${{ matrix.repository }}
+        branch: auto-updates/gotools
+        signoff: true
+        delete-branch: true
+
+        # Description of the change and PR body.
+        commit-message: 'format Go code'
+        title: '[Automated] Format Go code'
+        body: |
+          Produced via:
+          ```shell
+          export FILES=( $(find -path './vendor' -prune -o -path './third_party' -prune -o -name '*.pb.go' -prune -o -type f -name '*.go' -print) )
+          goimports -w "${FILES[@]}"
+          gofmt -s -w  "${FILES[@]}"
+          ```
+
+  misspell:
+    name: Fix Misspellings
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # Keep running if one leg fails.
+      matrix:
+        name:
+        - 'mattmoor/serving' # 'knative/serving'
+
+        # Map to more specialized parameters.
+        include:
+        - name: 'mattmoor/serving' # 'knative/serving'
+          organization: 'knative'
+          repository: 'serving'
+    env:
+      GO111MODULE: on
+
+    steps:
+
+    - name: Set up Go 1.15.x
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15.x
+      id: go
+
+    - name: Check out code onto GOPATH
+      uses: actions/checkout@v2
+      with:
+        repository: ${{ matrix.name }}
+
+    - name: Install Dependencies
+      run: |
+        cd $(mktemp -d)
+        go get github.com/client9/misspell/cmd/misspell
+
+    - name: client9/misspell
+      shell: bash
+      run: |
+        export FILES=( $(find . -type f -not -path './vendor/*' -not -path './third_party/*' -not -path './.git/*') )
+        if ! (( ${#FILES[@]} > 0 )); then
+          misspell -w "${FILES[@]}"
+        else
+          echo No files found.
+        fi
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        # Who to look like
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        committer: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
+        author: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
+
+        # Where to stage the change.
+        # push-to-fork: mattmoor/${{ matrix.repository }}
+        branch: auto-updates/client9-misspell
+        signoff: true
+        delete-branch: true
+
+        # Description of the change and PR body.
+        commit-message: 'Run github.com/client9/misspell'
+        title: '[Automated] Fix misspellings'
+        body: |
+          Produced via:
+          ```shell
+          export FILES=( $(find . -type f -not -path './vendor/*' -not -path './third_party/*' -not -path './.git/*') )
+          misspell -w "${FILES[@]}"
+          ```
+
+  update-actions:
+    name: Update actions
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # Keep running if one leg fails.
+      matrix:
+        name:
+        - 'mattmoor/serving' # 'knative/serving'
+
+        # Map to more specialized parameters.
+        include:
+        - name: 'mattmoor/serving' # 'knative/serving'
+          organization: 'knative'
+          repository: 'serving'
+    env:
+      GO111MODULE: on
+
+    steps:
+
+    - name: Check out code onto GOPATH
+      uses: actions/checkout@v2
+      with:
+        path: main
+        repository: ${{ matrix.name }}
+
+    - name: Check out code onto GOPATH
+      uses: actions/checkout@v2
+      with:
+        path: meta
+        repository: "${{ matrix.organization }}/.github"
+
+    - name: Copy Actions
+      shell: bash
+      run: |
+        cp $(find "${GITHUB_WORKSPACE}/meta/workflow-templates" -type f -name '*.yaml') \
+          "${GITHUB_WORKSPACE}/main/.github/workflows/"
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        # Who to look like
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        committer: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
+        author: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
+
+        # Where to stage the change.
+        # push-to-fork: mattmoor/${{ matrix.repository }}
+        branch: auto-updates/client9-misspell
+        signoff: true
+        delete-branch: true
+        path: main
+
+        # Description of the change and PR body.
+        commit-message: 'Update common github actions'
+        title: '[Automated] Update actions'
+        body: |
+          Produced via:
+          ```shell
+          # meta: ${{ matrix.organization }}/.github
+          # main: ${{ matrix.name }}
+          cp $(find "${GITHUB_WORKSPACE}/meta/workflow-templates" -type f -name '*.yaml') \
+            "${GITHUB_WORKSPACE}/main/.github/workflows/"
+          ```
