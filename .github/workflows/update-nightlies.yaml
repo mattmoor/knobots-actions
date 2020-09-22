@@ -69,7 +69,7 @@ jobs:
         author: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
 
         # Where to stage the change.
-        push-to-fork: mattmoor/serving
+        # push-to-fork: mattmoor/serving
         branch: update-nightly/${{ matrix.nightly }}
         signoff: true
         delete-branch: true
