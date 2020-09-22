@@ -48,6 +48,8 @@ jobs:
         - 'knative-sandbox/net-istio'
         - 'knative-sandbox/net-http01'
         - 'knative-sandbox/net-certmanager'
+        - 'tektoncd/pipeline'
+        - 'google/knative-gcp'
         - 'vmware-tanzu/sources-for-knative'
 
         # Map to more specialized parameters.
@@ -147,6 +149,18 @@ jobs:
           meta-organization: 'knative-sandbox'
           repository: 'net-certmanager'
           assignees: ZhiminXiang
+
+        # tektoncd
+        - name: 'tektoncd/pipeline'
+          meta-organization: 'knative' # Pull actions from the Knative org.
+          repository: 'pipeline'
+          assignees: vdemeester ImJasonH
+
+        # google
+        - name: 'google/knative-gcp'
+          meta-organization: 'knative' # Pull actions from the Knative org.
+          repository: 'knative-gcp'
+          assignees: nachocano grantr ian-mi
 
         # vmware-tanzu
         - name: 'vmware-tanzu/sources-for-knative'
@@ -248,6 +262,10 @@ jobs:
         - 'knative-sandbox/net-istio'
         - 'knative-sandbox/net-http01'
         - 'knative-sandbox/net-certmanager'
+        - 'tektoncd/pipeline'
+        - 'tektoncd/triggers'
+        - 'google/exposure-notifications-server'
+        - 'google/knative-gcp'
         - 'vmware-tanzu/sources-for-knative'
 
         # Map to more specialized parameters.
@@ -347,6 +365,26 @@ jobs:
           meta-organization: 'knative-sandbox'
           repository: 'net-certmanager'
           assignees: ZhiminXiang
+
+        # tektoncd
+        - name: 'tektoncd/pipeline'
+          meta-organization: 'knative' # Pull actions from the Knative org.
+          repository: 'pipeline'
+          assignees: vdemeester ImJasonH
+        - name: 'tektoncd/triggers'
+          meta-organization: 'knative' # Pull actions from the Knative org.
+          repository: 'triggers'
+          assignees: dibyom ImJasonH
+
+        # google
+        - name: 'google/exposure-notifications-server'
+          meta-organization: 'knative' # Pull actions from the Knative org.
+          repository: 'exposure-notifications-server'
+          assignees: mikehelmick
+        - name: 'google/knative-gcp'
+          meta-organization: 'knative' # Pull actions from the Knative org.
+          repository: 'knative-gcp'
+          assignees: nachocano grantr ian-mi
 
         # vmware-tanzu
         - name: 'vmware-tanzu/sources-for-knative'
@@ -442,6 +480,10 @@ jobs:
         - 'knative-sandbox/net-istio'
         - 'knative-sandbox/net-http01'
         - 'knative-sandbox/net-certmanager'
+        - 'tektoncd/pipeline'
+        - 'tektoncd/triggers'
+        - 'google/exposure-notifications-server'
+        - 'google/knative-gcp'
         - 'vmware-tanzu/sources-for-knative'
 
         # Map to more specialized parameters.
@@ -541,6 +583,26 @@ jobs:
           meta-organization: 'knative-sandbox'
           repository: 'net-certmanager'
           assignees: ZhiminXiang
+
+        # tektoncd
+        - name: 'tektoncd/pipeline'
+          meta-organization: 'knative' # Pull actions from the Knative org.
+          repository: 'pipeline'
+          assignees: vdemeester ImJasonH
+        - name: 'tektoncd/triggers'
+          meta-organization: 'knative' # Pull actions from the Knative org.
+          repository: 'triggers'
+          assignees: dibyom ImJasonH
+
+        # google
+        - name: 'google/exposure-notifications-server'
+          meta-organization: 'knative' # Pull actions from the Knative org.
+          repository: 'exposure-notifications-server'
+          assignees: mikehelmick
+        - name: 'google/knative-gcp'
+          meta-organization: 'knative' # Pull actions from the Knative org.
+          repository: 'knative-gcp'
+          assignees: nachocano grantr ian-mi
 
         # vmware-tanzu
         - name: 'vmware-tanzu/sources-for-knative'
@@ -634,6 +696,7 @@ jobs:
         - 'knative-sandbox/net-istio'
         - 'knative-sandbox/net-http01'
         - 'knative-sandbox/net-certmanager'
+        - 'google/knative-gcp'
         - 'vmware-tanzu/sources-for-knative'
 
         # Map to more specialized parameters.
@@ -733,6 +796,12 @@ jobs:
           meta-organization: 'knative-sandbox'
           repository: 'net-certmanager'
           assignees: ZhiminXiang
+
+        # google
+        - name: 'google/knative-gcp'
+          meta-organization: 'knative' # Pull actions from the Knative org.
+          repository: 'knative-gcp'
+          assignees: nachocano grantr ian-mi
 
         # vmware-tanzu
         - name: 'vmware-tanzu/sources-for-knative'
