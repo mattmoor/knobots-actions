@@ -58,7 +58,6 @@ jobs:
 
         # TODO(mattmoor): Move this into `./hack/update-codegen.sh`
         TMP_DIR="$(mktemp -d)"
-        trap 'rm -rf ${TMP_DIR} && rm -rf $SCRIPT_ROOT/vendor' EXIT
         export GOPATH=${GOPATH:-${TMP_DIR}}
         TMP_REPO_PATH="${TMP_DIR}/src/${MODULE_NAME}"
         mkdir -p "$(dirname "${TMP_REPO_PATH}")" && ln -s "${GITHUB_WORKSPACE}" "${TMP_REPO_PATH}"
