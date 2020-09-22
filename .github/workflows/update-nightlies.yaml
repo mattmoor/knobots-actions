@@ -65,7 +65,7 @@ jobs:
       with:
         # Who to look like
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        committer: "mattmoor+sockpuppet@vmware.com"
+        committer: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
         author: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
 
         # Where to stage the change.
