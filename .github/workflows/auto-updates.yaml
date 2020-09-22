@@ -50,6 +50,13 @@ jobs:
       with:
         repository: ${{ matrix.name }}
 
+    - name: Install Dependencies
+      run: |
+        cd $(mktemp -d)
+        go get github.com/google/ko/cmd/ko
+        go get github.com/google/licenseclassifier
+        go get github.com/google/go-licenses
+
     - name: Update Deps and Codegen
       shell: bash
       run: |
