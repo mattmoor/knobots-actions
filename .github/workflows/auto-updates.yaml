@@ -16,7 +16,7 @@ name: Auto Updates
 
 on:
   schedule:
-    - cron: '0 20 * * 1-5' # '0 2,14 * * 1-5' # 7am/pm Pacific on weekdays
+    - cron: '0 2,14 * * 1-5' # 7am/pm Pacific on weekdays
 
 jobs:
   update-deps:
@@ -26,13 +26,133 @@ jobs:
       fail-fast: false # Keep running if one leg fails.
       matrix:
         name:
+        - 'knative/pkg'
+        - 'knative/caching'
+        - 'knative/networking'
         - 'knative/serving'
+        - 'knative/eventing'
+        - 'knative/eventing-contrib'
+        - 'knative/operator'
+        - 'knative/test-infra'
+        - 'knative/docs'
+        - 'knative/client'
+        - 'knative-sandbox/sample-controller'
+        - 'knative-sandbox/sample-source'
+        - 'knative-sandbox/eventing-rabbitmq'
+        - 'knative-sandbox/discovery'
+        - 'knative-sandbox/eventing-kafka-broker'
+        - 'knative-sandbox/eventing-github'
+        - 'knative-sandbox/eventing-natss'
+        - 'knative-sandbox/net-contour'
+        - 'knative-sandbox/net-kourier'
+        - 'knative-sandbox/net-istio'
+        - 'knative-sandbox/net-http01'
+        - 'knative-sandbox/net-certmanager'
+        - 'vmware-tanzu/sources-for-knative'
 
         # Map to more specialized parameters.
         include:
+        # knative
+        - name: 'knative/pkg'
+          meta-organization: 'knative'
+          repository: 'pkg'
+          assignees: n3wscott vagababov
+        - name: 'knative/caching'
+          meta-organization: 'knative'
+          repository: 'caching'
+          assignees: n3wscott vagababov
+        - name: 'knative/networking'
+          meta-organization: 'knative'
+          repository: 'networking'
+          assignees: tcnghia nak3 ZhiminXiang
         - name: 'knative/serving'
-          organization: 'knative'
+          meta-organization: 'knative'
           repository: 'serving'
+          assignees: dprotaso vagababov
+        - name: 'knative/eventing'
+          meta-organization: 'knative'
+          repository: 'eventing'
+          assignees: n3wscott grantr matzew
+        - name: 'knative/eventing-contrib'
+          meta-organization: 'knative'
+          repository: 'eventing-contrib'
+          assignees: n3wscott grantr lberk matzew
+        - name: 'knative/operator'
+          meta-organization: 'knative'
+          repository: 'operator'
+          assignees: houshengbo
+        - name: 'knative/test-infra'
+          meta-organization: 'knative'
+          repository: 'test-infra'
+          assignees: chaodaig chizhg
+        - name: 'knative/docs'
+          meta-organization: 'knative'
+          repository: 'docs'
+          assignees: abrennan89 dprotaso vaikas
+        - name: 'knative/client'
+          meta-organization: 'knative'
+          repository: 'client'
+          assignees: rhuss maximilien
+
+        # knative-sandbox (samples)
+        - name: 'knative-sandbox/sample-controller'
+          meta-organization: 'knative-sandbox'
+          repository: 'sample-controller'
+          assignees: n3wscott vaikas
+        - name: 'knative-sandbox/sample-source'
+          meta-organization: 'knative-sandbox'
+          repository: 'sample-source'
+          assignees: n3wscott lberk
+
+        # knative-sandbox (eventing)
+        - name: 'knative-sandbox/eventing-rabbitmq'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-rabbitmq'
+          assignees: n3wscott vaikas
+        - name: 'knative-sandbox/discovery'
+          meta-organization: 'knative-sandbox'
+          repository: 'discovery'
+          assignees: n3wscott vaikas
+        - name: 'knative-sandbox/eventing-kafka-broker'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-kafka-broker'
+          assignees: slinkydeveloper
+        - name: 'knative-sandbox/eventing-github'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-github'
+          assignees: lionelvillard lberk
+        - name: 'knative-sandbox/eventing-natss'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-natss'
+          assignees: lionelvillard lberk
+
+        # knative-sandbox (networking)
+        - name: 'knative-sandbox/net-contour'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-contour'
+          assignees: tcnghia n3wscott
+        - name: 'knative-sandbox/net-kourier'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-kourier'
+          assignees: davidor markusthoemmes
+        - name: 'knative-sandbox/net-istio'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-istio'
+          assignees: nak3 ZhiminXiang
+        - name: 'knative-sandbox/net-http01'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-http01'
+          assignees: dprotaso tcnghia ZhiminXiang
+        - name: 'knative-sandbox/net-certmanager'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-certmanager'
+          assignees: ZhiminXiang
+
+        # vmware-tanzu
+        - name: 'vmware-tanzu/sources-for-knative'
+          meta-organization: 'knative' # Pull actions from the Knative org.
+          repository: 'sources-for-knative'
+          assignees: we don't use Prow
 
     env:
       GO111MODULE: on
@@ -96,6 +216,8 @@ jobs:
           ./hack/update-deps.sh --upgrade
           ./hack/update-codegen.sh
           ```
+          /cc ${{ matrix.assignee }}
+          /assign ${{ matrix.assignee }}
 
   gotool:
     name: Go Format and Imports
@@ -104,13 +226,134 @@ jobs:
       fail-fast: false # Keep running if one leg fails.
       matrix:
         name:
+        - 'knative/pkg'
+        - 'knative/caching'
+        - 'knative/networking'
         - 'knative/serving'
+        - 'knative/eventing'
+        - 'knative/eventing-contrib'
+        - 'knative/operator'
+        - 'knative/test-infra'
+        - 'knative/docs'
+        - 'knative/client'
+        - 'knative-sandbox/sample-controller'
+        - 'knative-sandbox/sample-source'
+        - 'knative-sandbox/eventing-rabbitmq'
+        - 'knative-sandbox/discovery'
+        - 'knative-sandbox/eventing-kafka-broker'
+        - 'knative-sandbox/eventing-github'
+        - 'knative-sandbox/eventing-natss'
+        - 'knative-sandbox/net-contour'
+        - 'knative-sandbox/net-kourier'
+        - 'knative-sandbox/net-istio'
+        - 'knative-sandbox/net-http01'
+        - 'knative-sandbox/net-certmanager'
+        - 'vmware-tanzu/sources-for-knative'
 
         # Map to more specialized parameters.
         include:
+        # knative
+        - name: 'knative/pkg'
+          meta-organization: 'knative'
+          repository: 'pkg'
+          assignees: n3wscott vagababov
+        - name: 'knative/caching'
+          meta-organization: 'knative'
+          repository: 'caching'
+          assignees: n3wscott vagababov
+        - name: 'knative/networking'
+          meta-organization: 'knative'
+          repository: 'networking'
+          assignees: tcnghia nak3 ZhiminXiang
         - name: 'knative/serving'
-          organization: 'knative'
+          meta-organization: 'knative'
           repository: 'serving'
+          assignees: dprotaso vagababov
+        - name: 'knative/eventing'
+          meta-organization: 'knative'
+          repository: 'eventing'
+          assignees: n3wscott grantr matzew
+        - name: 'knative/eventing-contrib'
+          meta-organization: 'knative'
+          repository: 'eventing-contrib'
+          assignees: n3wscott grantr lberk matzew
+        - name: 'knative/operator'
+          meta-organization: 'knative'
+          repository: 'operator'
+          assignees: houshengbo
+        - name: 'knative/test-infra'
+          meta-organization: 'knative'
+          repository: 'test-infra'
+          assignees: chaodaig chizhg
+        - name: 'knative/docs'
+          meta-organization: 'knative'
+          repository: 'docs'
+          assignees: abrennan89 dprotaso vaikas
+        - name: 'knative/client'
+          meta-organization: 'knative'
+          repository: 'client'
+          assignees: rhuss maximilien
+
+        # knative-sandbox (samples)
+        - name: 'knative-sandbox/sample-controller'
+          meta-organization: 'knative-sandbox'
+          repository: 'sample-controller'
+          assignees: n3wscott vaikas
+        - name: 'knative-sandbox/sample-source'
+          meta-organization: 'knative-sandbox'
+          repository: 'sample-source'
+          assignees: n3wscott lberk
+
+        # knative-sandbox (eventing)
+        - name: 'knative-sandbox/eventing-rabbitmq'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-rabbitmq'
+          assignees: n3wscott vaikas
+        - name: 'knative-sandbox/discovery'
+          meta-organization: 'knative-sandbox'
+          repository: 'discovery'
+          assignees: n3wscott vaikas
+        - name: 'knative-sandbox/eventing-kafka-broker'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-kafka-broker'
+          assignees: slinkydeveloper
+        - name: 'knative-sandbox/eventing-github'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-github'
+          assignees: lionelvillard lberk
+        - name: 'knative-sandbox/eventing-natss'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-natss'
+          assignees: lionelvillard lberk
+
+        # knative-sandbox (networking)
+        - name: 'knative-sandbox/net-contour'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-contour'
+          assignees: tcnghia n3wscott
+        - name: 'knative-sandbox/net-kourier'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-kourier'
+          assignees: davidor markusthoemmes
+        - name: 'knative-sandbox/net-istio'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-istio'
+          assignees: nak3 ZhiminXiang
+        - name: 'knative-sandbox/net-http01'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-http01'
+          assignees: dprotaso tcnghia ZhiminXiang
+        - name: 'knative-sandbox/net-certmanager'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-certmanager'
+          assignees: ZhiminXiang
+
+        # vmware-tanzu
+        - name: 'vmware-tanzu/sources-for-knative'
+          meta-organization: 'knative' # Pull actions from the Knative org.
+          repository: 'sources-for-knative'
+          assignees: we don't use Prow
+
     env:
       GO111MODULE: on
 
@@ -167,6 +410,8 @@ jobs:
           goimports -w "${FILES[@]}"
           gofmt -s -w  "${FILES[@]}"
           ```
+          /cc ${{ matrix.assignee }}
+          /assign ${{ matrix.assignee }}
 
   misspell:
     name: Fix Misspellings
@@ -175,13 +420,134 @@ jobs:
       fail-fast: false # Keep running if one leg fails.
       matrix:
         name:
+        - 'knative/pkg'
+        - 'knative/caching'
+        - 'knative/networking'
         - 'knative/serving'
+        - 'knative/eventing'
+        - 'knative/eventing-contrib'
+        - 'knative/operator'
+        - 'knative/test-infra'
+        - 'knative/docs'
+        - 'knative/client'
+        - 'knative-sandbox/sample-controller'
+        - 'knative-sandbox/sample-source'
+        - 'knative-sandbox/eventing-rabbitmq'
+        - 'knative-sandbox/discovery'
+        - 'knative-sandbox/eventing-kafka-broker'
+        - 'knative-sandbox/eventing-github'
+        - 'knative-sandbox/eventing-natss'
+        - 'knative-sandbox/net-contour'
+        - 'knative-sandbox/net-kourier'
+        - 'knative-sandbox/net-istio'
+        - 'knative-sandbox/net-http01'
+        - 'knative-sandbox/net-certmanager'
+        - 'vmware-tanzu/sources-for-knative'
 
         # Map to more specialized parameters.
         include:
+        # knative
+        - name: 'knative/pkg'
+          meta-organization: 'knative'
+          repository: 'pkg'
+          assignees: n3wscott vagababov
+        - name: 'knative/caching'
+          meta-organization: 'knative'
+          repository: 'caching'
+          assignees: n3wscott vagababov
+        - name: 'knative/networking'
+          meta-organization: 'knative'
+          repository: 'networking'
+          assignees: tcnghia nak3 ZhiminXiang
         - name: 'knative/serving'
-          organization: 'knative'
+          meta-organization: 'knative'
           repository: 'serving'
+          assignees: dprotaso vagababov
+        - name: 'knative/eventing'
+          meta-organization: 'knative'
+          repository: 'eventing'
+          assignees: n3wscott grantr matzew
+        - name: 'knative/eventing-contrib'
+          meta-organization: 'knative'
+          repository: 'eventing-contrib'
+          assignees: n3wscott grantr lberk matzew
+        - name: 'knative/operator'
+          meta-organization: 'knative'
+          repository: 'operator'
+          assignees: houshengbo
+        - name: 'knative/test-infra'
+          meta-organization: 'knative'
+          repository: 'test-infra'
+          assignees: chaodaig chizhg
+        - name: 'knative/docs'
+          meta-organization: 'knative'
+          repository: 'docs'
+          assignees: abrennan89 dprotaso vaikas
+        - name: 'knative/client'
+          meta-organization: 'knative'
+          repository: 'client'
+          assignees: rhuss maximilien
+
+        # knative-sandbox (samples)
+        - name: 'knative-sandbox/sample-controller'
+          meta-organization: 'knative-sandbox'
+          repository: 'sample-controller'
+          assignees: n3wscott vaikas
+        - name: 'knative-sandbox/sample-source'
+          meta-organization: 'knative-sandbox'
+          repository: 'sample-source'
+          assignees: n3wscott lberk
+
+        # knative-sandbox (eventing)
+        - name: 'knative-sandbox/eventing-rabbitmq'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-rabbitmq'
+          assignees: n3wscott vaikas
+        - name: 'knative-sandbox/discovery'
+          meta-organization: 'knative-sandbox'
+          repository: 'discovery'
+          assignees: n3wscott vaikas
+        - name: 'knative-sandbox/eventing-kafka-broker'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-kafka-broker'
+          assignees: slinkydeveloper
+        - name: 'knative-sandbox/eventing-github'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-github'
+          assignees: lionelvillard lberk
+        - name: 'knative-sandbox/eventing-natss'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-natss'
+          assignees: lionelvillard lberk
+
+        # knative-sandbox (networking)
+        - name: 'knative-sandbox/net-contour'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-contour'
+          assignees: tcnghia n3wscott
+        - name: 'knative-sandbox/net-kourier'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-kourier'
+          assignees: davidor markusthoemmes
+        - name: 'knative-sandbox/net-istio'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-istio'
+          assignees: nak3 ZhiminXiang
+        - name: 'knative-sandbox/net-http01'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-http01'
+          assignees: dprotaso tcnghia ZhiminXiang
+        - name: 'knative-sandbox/net-certmanager'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-certmanager'
+          assignees: ZhiminXiang
+
+        # vmware-tanzu
+        - name: 'vmware-tanzu/sources-for-knative'
+          meta-organization: 'knative' # Pull actions from the Knative org.
+          repository: 'sources-for-knative'
+          assignees: we don't use Prow
+
     env:
       GO111MODULE: on
 
@@ -236,6 +602,8 @@ jobs:
           export FILES=( $(find . -type f -not -path './vendor/*' -not -path './third_party/*' -not -path './.git/*') )
           misspell -w "${FILES[@]}"
           ```
+          /cc ${{ matrix.assignee }}
+          /assign ${{ matrix.assignee }}
 
   update-actions:
     name: Update actions
@@ -244,13 +612,134 @@ jobs:
       fail-fast: false # Keep running if one leg fails.
       matrix:
         name:
+        - 'knative/pkg'
+        - 'knative/caching'
+        - 'knative/networking'
         - 'knative/serving'
+        - 'knative/eventing'
+        - 'knative/eventing-contrib'
+        - 'knative/operator'
+        - 'knative/test-infra'
+        - 'knative/docs'
+        - 'knative/client'
+        - 'knative-sandbox/sample-controller'
+        - 'knative-sandbox/sample-source'
+        - 'knative-sandbox/eventing-rabbitmq'
+        - 'knative-sandbox/discovery'
+        - 'knative-sandbox/eventing-kafka-broker'
+        - 'knative-sandbox/eventing-github'
+        - 'knative-sandbox/eventing-natss'
+        - 'knative-sandbox/net-contour'
+        - 'knative-sandbox/net-kourier'
+        - 'knative-sandbox/net-istio'
+        - 'knative-sandbox/net-http01'
+        - 'knative-sandbox/net-certmanager'
+        - 'vmware-tanzu/sources-for-knative'
 
         # Map to more specialized parameters.
         include:
+        # knative
+        - name: 'knative/pkg'
+          meta-organization: 'knative'
+          repository: 'pkg'
+          assignees: n3wscott vagababov
+        - name: 'knative/caching'
+          meta-organization: 'knative'
+          repository: 'caching'
+          assignees: n3wscott vagababov
+        - name: 'knative/networking'
+          meta-organization: 'knative'
+          repository: 'networking'
+          assignees: tcnghia nak3 ZhiminXiang
         - name: 'knative/serving'
-          organization: 'knative'
+          meta-organization: 'knative'
           repository: 'serving'
+          assignees: dprotaso vagababov
+        - name: 'knative/eventing'
+          meta-organization: 'knative'
+          repository: 'eventing'
+          assignees: n3wscott grantr matzew
+        - name: 'knative/eventing-contrib'
+          meta-organization: 'knative'
+          repository: 'eventing-contrib'
+          assignees: n3wscott grantr lberk matzew
+        - name: 'knative/operator'
+          meta-organization: 'knative'
+          repository: 'operator'
+          assignees: houshengbo
+        - name: 'knative/test-infra'
+          meta-organization: 'knative'
+          repository: 'test-infra'
+          assignees: chaodaig chizhg
+        - name: 'knative/docs'
+          meta-organization: 'knative'
+          repository: 'docs'
+          assignees: abrennan89 dprotaso vaikas
+        - name: 'knative/client'
+          meta-organization: 'knative'
+          repository: 'client'
+          assignees: rhuss maximilien
+
+        # knative-sandbox (samples)
+        - name: 'knative-sandbox/sample-controller'
+          meta-organization: 'knative-sandbox'
+          repository: 'sample-controller'
+          assignees: n3wscott vaikas
+        - name: 'knative-sandbox/sample-source'
+          meta-organization: 'knative-sandbox'
+          repository: 'sample-source'
+          assignees: n3wscott lberk
+
+        # knative-sandbox (eventing)
+        - name: 'knative-sandbox/eventing-rabbitmq'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-rabbitmq'
+          assignees: n3wscott vaikas
+        - name: 'knative-sandbox/discovery'
+          meta-organization: 'knative-sandbox'
+          repository: 'discovery'
+          assignees: n3wscott vaikas
+        - name: 'knative-sandbox/eventing-kafka-broker'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-kafka-broker'
+          assignees: slinkydeveloper
+        - name: 'knative-sandbox/eventing-github'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-github'
+          assignees: lionelvillard lberk
+        - name: 'knative-sandbox/eventing-natss'
+          meta-organization: 'knative-sandbox'
+          repository: 'eventing-natss'
+          assignees: lionelvillard lberk
+
+        # knative-sandbox (networking)
+        - name: 'knative-sandbox/net-contour'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-contour'
+          assignees: tcnghia n3wscott
+        - name: 'knative-sandbox/net-kourier'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-kourier'
+          assignees: davidor markusthoemmes
+        - name: 'knative-sandbox/net-istio'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-istio'
+          assignees: nak3 ZhiminXiang
+        - name: 'knative-sandbox/net-http01'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-http01'
+          assignees: dprotaso tcnghia ZhiminXiang
+        - name: 'knative-sandbox/net-certmanager'
+          meta-organization: 'knative-sandbox'
+          repository: 'net-certmanager'
+          assignees: ZhiminXiang
+
+        # vmware-tanzu
+        - name: 'vmware-tanzu/sources-for-knative'
+          meta-organization: 'knative' # Pull actions from the Knative org.
+          repository: 'sources-for-knative'
+          assignees: we don't use Prow
+
     env:
       GO111MODULE: on
 
@@ -266,7 +755,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         path: meta
-        repository: "${{ matrix.organization }}/.github"
+        repository: "${{ matrix.meta-organization }}/.github"
 
     - name: Copy Actions
       shell: bash
@@ -295,8 +784,10 @@ jobs:
         body: |
           Produced via:
           ```shell
-          # meta: ${{ matrix.organization }}/.github
+          # meta: ${{ matrix.meta-organization }}/.github
           # main: ${{ matrix.name }}
           cp $(find "${GITHUB_WORKSPACE}/meta/workflow-templates" -type f -name '*.yaml') \
             "${GITHUB_WORKSPACE}/main/.github/workflows/"
           ```
+          /cc ${{ matrix.assignee }}
+          /assign ${{ matrix.assignee }}
