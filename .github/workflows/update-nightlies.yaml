@@ -16,7 +16,7 @@ name: Update Nightlies
 
 on:
   schedule:
-  - cron: '0 17 * * 1-5' # '0 9 * * 1-5' # 2am Pacific on weekdays
+  - cron: '30 17 * * 1-5' # '0 9 * * 1-5' # 2am Pacific on weekdays
 
 jobs:
 
@@ -59,14 +59,13 @@ jobs:
         for x in ${{ matrix.files }}; do
           curl https://storage.googleapis.com/knative-nightly/${{ matrix.nightly }}/latest/$x > ${GITHUB_WORKSPACE}/${{ matrix.directory }}/$x
         done
-
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
       with:
         # Who to look like
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        committer: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
-        author: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
+        committer: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
+        author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
 
         # Where to stage the change.
         push-to-fork: mattmoor/serving
