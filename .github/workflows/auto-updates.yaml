@@ -16,7 +16,7 @@ name: Auto Updates
 
 on:
   schedule:
-  - cron:  '* * * * *' # '0 2,14 * * 1-5' # 7am/pm Pacific on weekdays
+    - cron: '0 20 * * 1-5' # '0 2,14 * * 1-5' # 7am/pm Pacific on weekdays
 
 jobs:
   update-deps:
@@ -26,11 +26,11 @@ jobs:
       fail-fast: false # Keep running if one leg fails.
       matrix:
         name:
-        - 'mattmoor/serving' # 'knative/serving'
+        - 'knative/serving'
 
         # Map to more specialized parameters.
         include:
-        - name: 'mattmoor/serving' # 'knative/serving'
+        - name: 'knative/serving'
           organization: 'knative'
           repository: 'serving'
 
@@ -82,7 +82,7 @@ jobs:
         author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
 
         # Where to stage the change.
-        # push-to-fork: mattmoor/${{ matrix.repository }}
+        push-to-fork: mattmoor/${{ matrix.repository }}
         branch: auto-updates/update-deps
         signoff: true
         delete-branch: true
@@ -104,11 +104,11 @@ jobs:
       fail-fast: false # Keep running if one leg fails.
       matrix:
         name:
-        - 'mattmoor/serving' # 'knative/serving'
+        - 'knative/serving'
 
         # Map to more specialized parameters.
         include:
-        - name: 'mattmoor/serving' # 'knative/serving'
+        - name: 'knative/serving'
           organization: 'knative'
           repository: 'serving'
     env:
@@ -152,7 +152,7 @@ jobs:
         author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
 
         # Where to stage the change.
-        # push-to-fork: mattmoor/${{ matrix.repository }}
+        push-to-fork: mattmoor/${{ matrix.repository }}
         branch: auto-updates/gotools
         signoff: true
         delete-branch: true
@@ -175,11 +175,11 @@ jobs:
       fail-fast: false # Keep running if one leg fails.
       matrix:
         name:
-        - 'mattmoor/serving' # 'knative/serving'
+        - 'knative/serving'
 
         # Map to more specialized parameters.
         include:
-        - name: 'mattmoor/serving' # 'knative/serving'
+        - name: 'knative/serving'
           organization: 'knative'
           repository: 'serving'
     env:
@@ -222,7 +222,7 @@ jobs:
         author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
 
         # Where to stage the change.
-        # push-to-fork: mattmoor/${{ matrix.repository }}
+        push-to-fork: mattmoor/${{ matrix.repository }}
         branch: auto-updates/client9-misspell
         signoff: true
         delete-branch: true
@@ -244,11 +244,11 @@ jobs:
       fail-fast: false # Keep running if one leg fails.
       matrix:
         name:
-        - 'mattmoor/serving' # 'knative/serving'
+        - 'knative/serving'
 
         # Map to more specialized parameters.
         include:
-        - name: 'mattmoor/serving' # 'knative/serving'
+        - name: 'knative/serving'
           organization: 'knative'
           repository: 'serving'
     env:
@@ -283,7 +283,7 @@ jobs:
         author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
 
         # Where to stage the change.
-        # push-to-fork: mattmoor/${{ matrix.repository }}
+        push-to-fork: mattmoor/${{ matrix.repository }}
         branch: auto-updates/common-actions
         signoff: true
         delete-branch: true
