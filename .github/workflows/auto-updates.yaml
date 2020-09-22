@@ -72,8 +72,8 @@ jobs:
       with:
         # Who to look like
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        committer: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
-        author: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
+        committer: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
+        author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
 
         # Where to stage the change.
         # push-to-fork: mattmoor/${{ matrix.repository }}
@@ -142,8 +142,8 @@ jobs:
       with:
         # Who to look like
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        committer: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
-        author: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
+        committer: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
+        author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
 
         # Where to stage the change.
         # push-to-fork: mattmoor/${{ matrix.repository }}
@@ -212,8 +212,8 @@ jobs:
       with:
         # Who to look like
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        committer: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
-        author: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
+        committer: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
+        author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
 
         # Where to stage the change.
         # push-to-fork: mattmoor/${{ matrix.repository }}
@@ -273,12 +273,12 @@ jobs:
       with:
         # Who to look like
         token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        committer: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
-        author: "Matt Moore (via Sockpuppet) <mattmoor+sockpuppet@vmware.com>"
+        committer: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
+        author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
 
         # Where to stage the change.
         # push-to-fork: mattmoor/${{ matrix.repository }}
-        branch: auto-updates/client9-misspell
+        branch: auto-updates/common-actions
         signoff: true
         delete-branch: true
         path: main
