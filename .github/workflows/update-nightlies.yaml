@@ -16,7 +16,7 @@ name: Update Nightlies
 
 on:
   schedule:
-  - cron: '0 20 * * 1-5' # '0 9 * * 1-5' # 2am Pacific on weekdays
+  - cron: '15 15 * * 1-5' # '0 9 * * 1-5' # 2am Pacific on weekdays
 
 jobs:
 
