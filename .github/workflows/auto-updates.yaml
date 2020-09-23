@@ -208,6 +208,8 @@ jobs:
         # We may pull in code-generator updates, or not have generated code.
         [[ ! -f hack/update-codegen.sh ]] || ./hack/update-codegen.sh
 
+        echo GITHUB_WORKFLOW_URL=https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
       with:
@@ -424,6 +426,8 @@ jobs:
         else
           echo No Go files found.
         fi
+
+        echo GITHUB_WORKFLOW_URL=https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
@@ -642,6 +646,8 @@ jobs:
           echo No files found.
         fi
 
+        echo GITHUB_WORKFLOW_URL=https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
       with:
@@ -833,6 +839,8 @@ jobs:
         mkdir -p "${GITHUB_WORKSPACE}/main/.github/workflows/"
         cp $(find "${GITHUB_WORKSPACE}/meta/workflow-templates" -type f -name '*.yaml') \
           "${GITHUB_WORKSPACE}/main/.github/workflows/"
+
+        echo GITHUB_WORKFLOW_URL=https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
