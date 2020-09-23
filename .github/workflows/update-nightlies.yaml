@@ -16,7 +16,7 @@ name: Update Nightlies
 
 on:
   schedule:
-  - cron: '15 15 * * 1-5' # '0 9 * * 1-5' # 2am Pacific on weekdays
+  - cron: '0 11 * * 1-5' # 4am Pacific on weekdays
 
 jobs:
 
@@ -85,7 +85,7 @@ jobs:
           ```
           /assign tcnghia nak3 ZhiminXiang
 
-    - name: Post to slack
+    - name: Post failure notice to Slack
       uses: rtCamp/action-slack-notify@v2.1.0
       if: ${{ failure() }}
       env:

@@ -16,7 +16,7 @@ name: Auto Updates
 
 on:
   schedule:
-    - cron: '0 2,14 * * 1-5' # 7am/pm Pacific on weekdays
+    - cron: '0 1,13 * * 1-5' # 6am/pm Pacific on weekdays
 
 jobs:
   update-deps:
@@ -58,74 +58,91 @@ jobs:
         - name: 'knative/pkg'
           meta-organization: 'knative'
           repository: 'pkg'
+          channel: 'serving-api'
           assignees: n3wscott vagababov
         - name: 'knative/caching'
           meta-organization: 'knative'
           repository: 'caching'
+          channel: 'serving-api'
           assignees: n3wscott vagababov
         - name: 'knative/networking'
           meta-organization: 'knative'
           repository: 'networking'
+          channel: 'networking'
           assignees: tcnghia nak3 ZhiminXiang
         - name: 'knative/serving'
           meta-organization: 'knative'
           repository: 'serving'
+          channel: 'serving-api'
           assignees: dprotaso vagababov
         - name: 'knative/eventing'
           meta-organization: 'knative'
           repository: 'eventing'
+          channel: 'eventing'
           assignees: n3wscott grantr matzew
         - name: 'knative/eventing-contrib'
           meta-organization: 'knative'
           repository: 'eventing-contrib'
+          channel: 'eventing'
           assignees: n3wscott grantr lberk matzew
         - name: 'knative/operator'
           meta-organization: 'knative'
           repository: 'operator'
+          channel: 'operations'
           assignees: houshengbo
         - name: 'knative/test-infra'
           meta-organization: 'knative'
           repository: 'test-infra'
+          channel: 'productivity'
           assignees: chaodaig chizhg
         - name: 'knative/docs'
           meta-organization: 'knative'
           repository: 'docs'
+          channel: 'docs'
           assignees: abrennan89 dprotaso vaikas
         - name: 'knative/client'
           meta-organization: 'knative'
           repository: 'client'
+          channel: 'client'
           assignees: rhuss maximilien
 
         # knative-sandbox (samples)
         - name: 'knative-sandbox/sample-controller'
           meta-organization: 'knative-sandbox'
           repository: 'sample-controller'
+          channel: 'serving-api'
           assignees: n3wscott vaikas
         - name: 'knative-sandbox/sample-source'
           meta-organization: 'knative-sandbox'
           repository: 'sample-source'
+          channel: 'eventing-sources'
           assignees: n3wscott lberk
 
         # knative-sandbox (eventing)
         - name: 'knative-sandbox/eventing-rabbitmq'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-rabbitmq'
+          channel: 'eventing-delivery'
           assignees: n3wscott vaikas
         - name: 'knative-sandbox/discovery'
           meta-organization: 'knative-sandbox'
           repository: 'discovery'
+          channel: 'eventing-sources'
           assignees: n3wscott vaikas
         - name: 'knative-sandbox/eventing-kafka-broker'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-kafka-broker'
+          channel: 'eventing-delivery'
           assignees: slinkydeveloper
         - name: 'knative-sandbox/eventing-github'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-github'
+          channel: 'eventing-sources'
           assignees: lionelvillard lberk
         - name: 'knative-sandbox/eventing-natss'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-natss'
+          channel: 'eventing-delivery'
           assignees: lionelvillard lberk
 
         # knative-sandbox (networking)
@@ -140,32 +157,38 @@ jobs:
         - name: 'knative-sandbox/net-istio'
           meta-organization: 'knative-sandbox'
           repository: 'net-istio'
+          channel: 'net-istio'
           assignees: nak3 ZhiminXiang
         - name: 'knative-sandbox/net-http01'
           meta-organization: 'knative-sandbox'
           repository: 'net-http01'
+          channel: 'net-http01'
           assignees: dprotaso tcnghia ZhiminXiang
         - name: 'knative-sandbox/net-certmanager'
           meta-organization: 'knative-sandbox'
           repository: 'net-certmanager'
+          channel: 'net-certmanager'
           assignees: ZhiminXiang
 
         # tektoncd
         - name: 'tektoncd/pipeline'
           meta-organization: 'knative' # Pull actions from the Knative org.
           repository: 'pipeline'
+          channel: '@vdemeester'
           assignees: vdemeester ImJasonH
 
         # google
         - name: 'google/knative-gcp'
           meta-organization: 'knative' # Pull actions from the Knative org.
           repository: 'knative-gcp'
+          channel: '@nachocano'
           assignees: nachocano grantr ian-mi
 
         # vmware-tanzu
         - name: 'vmware-tanzu/sources-for-knative'
           meta-organization: 'knative' # Pull actions from the Knative org.
           repository: 'sources-for-knative'
+          channel: 'vmware-sources'
           assignees: we don't use Prow
 
     env:
@@ -236,6 +259,21 @@ jobs:
           /cc ${{ matrix.assignees }}
           /assign ${{ matrix.assignees }}
 
+    - name: Post failure notice to Slack
+      uses: rtCamp/action-slack-notify@v2.1.0
+      if: ${{ failure() }}
+      env:
+        SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
+        SLACK_USERNAME: sockpuppet
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+        SLACK_CHANNEL: ${{ matrix.channel }}
+        SLACK_COLOR: '#8E1600'
+        MSG_MINIMAL: 'true'
+        SLACK_TITLE: Updating dependencies for ${{ matrix.name }} failed.
+        SLACK_MESSAGE: |
+          For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
   gotool:
     name: Go Format and Imports
     runs-on: ubuntu-latest
@@ -277,74 +315,91 @@ jobs:
         - name: 'knative/pkg'
           meta-organization: 'knative'
           repository: 'pkg'
+          channel: 'serving-api'
           assignees: n3wscott vagababov
         - name: 'knative/caching'
           meta-organization: 'knative'
           repository: 'caching'
+          channel: 'serving-api'
           assignees: n3wscott vagababov
         - name: 'knative/networking'
           meta-organization: 'knative'
           repository: 'networking'
+          channel: 'networking'
           assignees: tcnghia nak3 ZhiminXiang
         - name: 'knative/serving'
           meta-organization: 'knative'
           repository: 'serving'
+          channel: 'serving-api'
           assignees: dprotaso vagababov
         - name: 'knative/eventing'
           meta-organization: 'knative'
           repository: 'eventing'
+          channel: 'eventing'
           assignees: n3wscott grantr matzew
         - name: 'knative/eventing-contrib'
           meta-organization: 'knative'
           repository: 'eventing-contrib'
+          channel: 'eventing'
           assignees: n3wscott grantr lberk matzew
         - name: 'knative/operator'
           meta-organization: 'knative'
           repository: 'operator'
+          channel: 'operations'
           assignees: houshengbo
         - name: 'knative/test-infra'
           meta-organization: 'knative'
           repository: 'test-infra'
+          channel: 'productivity'
           assignees: chaodaig chizhg
         - name: 'knative/docs'
           meta-organization: 'knative'
           repository: 'docs'
+          channel: 'docs'
           assignees: abrennan89 dprotaso vaikas
         - name: 'knative/client'
           meta-organization: 'knative'
           repository: 'client'
+          channel: 'client'
           assignees: rhuss maximilien
 
         # knative-sandbox (samples)
         - name: 'knative-sandbox/sample-controller'
           meta-organization: 'knative-sandbox'
           repository: 'sample-controller'
+          channel: 'serving-api'
           assignees: n3wscott vaikas
         - name: 'knative-sandbox/sample-source'
           meta-organization: 'knative-sandbox'
           repository: 'sample-source'
+          channel: 'eventing-sources'
           assignees: n3wscott lberk
 
         # knative-sandbox (eventing)
         - name: 'knative-sandbox/eventing-rabbitmq'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-rabbitmq'
+          channel: 'eventing-delivery'
           assignees: n3wscott vaikas
         - name: 'knative-sandbox/discovery'
           meta-organization: 'knative-sandbox'
           repository: 'discovery'
+          channel: 'eventing-sources'
           assignees: n3wscott vaikas
         - name: 'knative-sandbox/eventing-kafka-broker'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-kafka-broker'
+          channel: 'eventing-delivery'
           assignees: slinkydeveloper
         - name: 'knative-sandbox/eventing-github'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-github'
+          channel: 'eventing-sources'
           assignees: lionelvillard lberk
         - name: 'knative-sandbox/eventing-natss'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-natss'
+          channel: 'eventing-delivery'
           assignees: lionelvillard lberk
 
         # knative-sandbox (networking)
@@ -359,40 +414,48 @@ jobs:
         - name: 'knative-sandbox/net-istio'
           meta-organization: 'knative-sandbox'
           repository: 'net-istio'
+          channel: 'net-istio'
           assignees: nak3 ZhiminXiang
         - name: 'knative-sandbox/net-http01'
           meta-organization: 'knative-sandbox'
           repository: 'net-http01'
+          channel: 'net-http01'
           assignees: dprotaso tcnghia ZhiminXiang
         - name: 'knative-sandbox/net-certmanager'
           meta-organization: 'knative-sandbox'
           repository: 'net-certmanager'
+          channel: 'net-certmanager'
           assignees: ZhiminXiang
 
         # tektoncd
         - name: 'tektoncd/pipeline'
           meta-organization: 'knative' # Pull actions from the Knative org.
           repository: 'pipeline'
+          channel: '@vdemeester'
           assignees: vdemeester ImJasonH
         - name: 'tektoncd/triggers'
           meta-organization: 'knative' # Pull actions from the Knative org.
           repository: 'triggers'
+          channel: '@ImJasonH'
           assignees: dibyom ImJasonH
 
         # google
         - name: 'google/exposure-notifications-server'
           meta-organization: 'knative' # Pull actions from the Knative org.
           repository: 'exposure-notifications-server'
+          channel: '@helmick'
           assignees: mikehelmick
         - name: 'google/knative-gcp'
           meta-organization: 'knative' # Pull actions from the Knative org.
           repository: 'knative-gcp'
+          channel: '@nachocano'
           assignees: nachocano grantr ian-mi
 
         # vmware-tanzu
         - name: 'vmware-tanzu/sources-for-knative'
           meta-organization: 'knative' # Pull actions from the Knative org.
           repository: 'sources-for-knative'
+          channel: 'vmware-sources'
           assignees: we don't use Prow
 
     env:
@@ -456,6 +519,21 @@ jobs:
           /cc ${{ matrix.assignees }}
           /assign ${{ matrix.assignees }}
 
+    - name: Post failure notice to Slack
+      uses: rtCamp/action-slack-notify@v2.1.0
+      if: ${{ failure() }}
+      env:
+        SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
+        SLACK_USERNAME: sockpuppet
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+        SLACK_CHANNEL: ${{ matrix.channel }}
+        SLACK_COLOR: '#8E1600'
+        MSG_MINIMAL: 'true'
+        SLACK_TITLE: Format Go code for ${{ matrix.name }} failed.
+        SLACK_MESSAGE: |
+          For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
   misspell:
     name: Fix Misspellings
     runs-on: ubuntu-latest
@@ -497,74 +575,91 @@ jobs:
         - name: 'knative/pkg'
           meta-organization: 'knative'
           repository: 'pkg'
+          channel: 'serving-api'
           assignees: n3wscott vagababov
         - name: 'knative/caching'
           meta-organization: 'knative'
           repository: 'caching'
+          channel: 'serving-api'
           assignees: n3wscott vagababov
         - name: 'knative/networking'
           meta-organization: 'knative'
           repository: 'networking'
+          channel: 'networking'
           assignees: tcnghia nak3 ZhiminXiang
         - name: 'knative/serving'
           meta-organization: 'knative'
           repository: 'serving'
+          channel: 'serving-api'
           assignees: dprotaso vagababov
         - name: 'knative/eventing'
           meta-organization: 'knative'
           repository: 'eventing'
+          channel: 'eventing'
           assignees: n3wscott grantr matzew
         - name: 'knative/eventing-contrib'
           meta-organization: 'knative'
           repository: 'eventing-contrib'
+          channel: 'eventing'
           assignees: n3wscott grantr lberk matzew
         - name: 'knative/operator'
           meta-organization: 'knative'
           repository: 'operator'
+          channel: 'operations'
           assignees: houshengbo
         - name: 'knative/test-infra'
           meta-organization: 'knative'
           repository: 'test-infra'
+          channel: 'productivity'
           assignees: chaodaig chizhg
         - name: 'knative/docs'
           meta-organization: 'knative'
           repository: 'docs'
+          channel: 'docs'
           assignees: abrennan89 dprotaso vaikas
         - name: 'knative/client'
           meta-organization: 'knative'
           repository: 'client'
+          channel: 'client'
           assignees: rhuss maximilien
 
         # knative-sandbox (samples)
         - name: 'knative-sandbox/sample-controller'
           meta-organization: 'knative-sandbox'
           repository: 'sample-controller'
+          channel: 'serving-api'
           assignees: n3wscott vaikas
         - name: 'knative-sandbox/sample-source'
           meta-organization: 'knative-sandbox'
           repository: 'sample-source'
+          channel: 'eventing-sources'
           assignees: n3wscott lberk
 
         # knative-sandbox (eventing)
         - name: 'knative-sandbox/eventing-rabbitmq'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-rabbitmq'
+          channel: 'eventing-delivery'
           assignees: n3wscott vaikas
         - name: 'knative-sandbox/discovery'
           meta-organization: 'knative-sandbox'
           repository: 'discovery'
+          channel: 'eventing-sources'
           assignees: n3wscott vaikas
         - name: 'knative-sandbox/eventing-kafka-broker'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-kafka-broker'
+          channel: 'eventing-delivery'
           assignees: slinkydeveloper
         - name: 'knative-sandbox/eventing-github'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-github'
+          channel: 'eventing-sources'
           assignees: lionelvillard lberk
         - name: 'knative-sandbox/eventing-natss'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-natss'
+          channel: 'eventing-delivery'
           assignees: lionelvillard lberk
 
         # knative-sandbox (networking)
@@ -579,40 +674,48 @@ jobs:
         - name: 'knative-sandbox/net-istio'
           meta-organization: 'knative-sandbox'
           repository: 'net-istio'
+          channel: 'net-istio'
           assignees: nak3 ZhiminXiang
         - name: 'knative-sandbox/net-http01'
           meta-organization: 'knative-sandbox'
           repository: 'net-http01'
+          channel: 'net-http01'
           assignees: dprotaso tcnghia ZhiminXiang
         - name: 'knative-sandbox/net-certmanager'
           meta-organization: 'knative-sandbox'
           repository: 'net-certmanager'
+          channel: 'net-certmanager'
           assignees: ZhiminXiang
 
         # tektoncd
         - name: 'tektoncd/pipeline'
           meta-organization: 'knative' # Pull actions from the Knative org.
           repository: 'pipeline'
+          channel: '@vdemeester'
           assignees: vdemeester ImJasonH
         - name: 'tektoncd/triggers'
           meta-organization: 'knative' # Pull actions from the Knative org.
           repository: 'triggers'
+          channel: '@ImJasonH'
           assignees: dibyom ImJasonH
 
         # google
         - name: 'google/exposure-notifications-server'
           meta-organization: 'knative' # Pull actions from the Knative org.
           repository: 'exposure-notifications-server'
+          channel: '@helmick'
           assignees: mikehelmick
         - name: 'google/knative-gcp'
           meta-organization: 'knative' # Pull actions from the Knative org.
           repository: 'knative-gcp'
+          channel: '@nachocano'
           assignees: nachocano grantr ian-mi
 
         # vmware-tanzu
         - name: 'vmware-tanzu/sources-for-knative'
           meta-organization: 'knative' # Pull actions from the Knative org.
           repository: 'sources-for-knative'
+          channel: 'vmware-sources'
           assignees: we don't use Prow
 
     env:
@@ -674,6 +777,21 @@ jobs:
           /cc ${{ matrix.assignees }}
           /assign ${{ matrix.assignees }}
 
+    - name: Post failure notice to Slack
+      uses: rtCamp/action-slack-notify@v2.1.0
+      if: ${{ failure() }}
+      env:
+        SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
+        SLACK_USERNAME: sockpuppet
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+        SLACK_CHANNEL: ${{ matrix.channel }}
+        SLACK_COLOR: '#8E1600'
+        MSG_MINIMAL: 'true'
+        SLACK_TITLE: Fix misspellings for ${{ matrix.name }} failed.
+        SLACK_MESSAGE: |
+          For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
   update-actions:
     name: Update actions
     runs-on: ubuntu-latest
@@ -712,74 +830,91 @@ jobs:
         - name: 'knative/pkg'
           meta-organization: 'knative'
           repository: 'pkg'
+          channel: 'serving-api'
           assignees: n3wscott vagababov
         - name: 'knative/caching'
           meta-organization: 'knative'
           repository: 'caching'
+          channel: 'serving-api'
           assignees: n3wscott vagababov
         - name: 'knative/networking'
           meta-organization: 'knative'
           repository: 'networking'
+          channel: 'networking'
           assignees: tcnghia nak3 ZhiminXiang
         - name: 'knative/serving'
           meta-organization: 'knative'
           repository: 'serving'
+          channel: 'serving-api'
           assignees: dprotaso vagababov
         - name: 'knative/eventing'
           meta-organization: 'knative'
           repository: 'eventing'
+          channel: 'eventing'
           assignees: n3wscott grantr matzew
         - name: 'knative/eventing-contrib'
           meta-organization: 'knative'
           repository: 'eventing-contrib'
+          channel: 'eventing'
           assignees: n3wscott grantr lberk matzew
         - name: 'knative/operator'
           meta-organization: 'knative'
           repository: 'operator'
+          channel: 'operations'
           assignees: houshengbo
         - name: 'knative/test-infra'
           meta-organization: 'knative'
           repository: 'test-infra'
+          channel: 'productivity'
           assignees: chaodaig chizhg
         - name: 'knative/docs'
           meta-organization: 'knative'
           repository: 'docs'
+          channel: 'docs'
           assignees: abrennan89 dprotaso vaikas
         - name: 'knative/client'
           meta-organization: 'knative'
           repository: 'client'
+          channel: 'client'
           assignees: rhuss maximilien
 
         # knative-sandbox (samples)
         - name: 'knative-sandbox/sample-controller'
           meta-organization: 'knative-sandbox'
           repository: 'sample-controller'
+          channel: 'serving-api'
           assignees: n3wscott vaikas
         - name: 'knative-sandbox/sample-source'
           meta-organization: 'knative-sandbox'
           repository: 'sample-source'
+          channel: 'eventing-sources'
           assignees: n3wscott lberk
 
         # knative-sandbox (eventing)
         - name: 'knative-sandbox/eventing-rabbitmq'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-rabbitmq'
+          channel: 'eventing-delivery'
           assignees: n3wscott vaikas
         - name: 'knative-sandbox/discovery'
           meta-organization: 'knative-sandbox'
           repository: 'discovery'
+          channel: 'eventing-sources'
           assignees: n3wscott vaikas
         - name: 'knative-sandbox/eventing-kafka-broker'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-kafka-broker'
+          channel: 'eventing-delivery'
           assignees: slinkydeveloper
         - name: 'knative-sandbox/eventing-github'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-github'
+          channel: 'eventing-sources'
           assignees: lionelvillard lberk
         - name: 'knative-sandbox/eventing-natss'
           meta-organization: 'knative-sandbox'
           repository: 'eventing-natss'
+          channel: 'eventing-delivery'
           assignees: lionelvillard lberk
 
         # knative-sandbox (networking)
@@ -794,26 +929,31 @@ jobs:
         - name: 'knative-sandbox/net-istio'
           meta-organization: 'knative-sandbox'
           repository: 'net-istio'
+          channel: 'net-istio'
           assignees: nak3 ZhiminXiang
         - name: 'knative-sandbox/net-http01'
           meta-organization: 'knative-sandbox'
           repository: 'net-http01'
+          channel: 'net-http01'
           assignees: dprotaso tcnghia ZhiminXiang
         - name: 'knative-sandbox/net-certmanager'
           meta-organization: 'knative-sandbox'
           repository: 'net-certmanager'
+          channel: 'net-certmanager'
           assignees: ZhiminXiang
 
         # google
         - name: 'google/knative-gcp'
           meta-organization: 'knative' # Pull actions from the Knative org.
           repository: 'knative-gcp'
+          channel: '@nachocano'
           assignees: nachocano grantr ian-mi
 
         # vmware-tanzu
         - name: 'vmware-tanzu/sources-for-knative'
           meta-organization: 'knative' # Pull actions from the Knative org.
           repository: 'sources-for-knative'
+          channel: 'vmware-sources'
           assignees: we don't use Prow
 
     env:
@@ -870,3 +1010,18 @@ jobs:
           ```
           /cc ${{ matrix.assignees }}
           /assign ${{ matrix.assignees }}
+
+    - name: Post failure notice to Slack
+      uses: rtCamp/action-slack-notify@v2.1.0
+      if: ${{ failure() }}
+      env:
+        SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
+        SLACK_USERNAME: sockpuppet
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+        SLACK_CHANNEL: ${{ matrix.channel }}
+        SLACK_COLOR: '#8E1600'
+        MSG_MINIMAL: 'true'
+        SLACK_TITLE: Copy actions for ${{ matrix.name }} failed.
+        SLACK_MESSAGE: |
+          For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
