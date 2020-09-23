@@ -84,3 +84,18 @@ jobs:
           done
           ```
           /assign tcnghia nak3 ZhiminXiang
+
+    - name: Post to slack
+      uses: rtCamp/action-slack-notify@v2.1.0
+      if: ${{ failure() }}
+      env:
+        SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
+        SLACK_USERNAME: sockpuppet
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+        SLACK_CHANNEL: ${{ matrix.nightly }}
+        SLACK_COLOR: '#8E1600'
+        MSG_MINIMAL: 'true'
+        SLACK_TITLE: Update nightly ${{ matrix.nightly }} failed.
+        SLACK_MESSAGE: |
+          For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
