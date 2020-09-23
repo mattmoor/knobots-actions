@@ -53,7 +53,7 @@ jobs:
       with:
         repository: 'knative/serving'
 
-    - name: Go Format and Imports
+    - name: Download nightlies
       shell: bash
       run: |
         for x in ${{ matrix.files }}; do
