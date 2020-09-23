@@ -230,8 +230,8 @@ jobs:
           ./hack/update-deps.sh --upgrade
           ./hack/update-codegen.sh
           ```
-          /cc ${{ matrix.assignee }}
-          /assign ${{ matrix.assignee }}
+          /cc ${{ matrix.assignees }}
+          /assign ${{ matrix.assignees }}
 
   gotool:
     name: Go Format and Imports
@@ -448,8 +448,8 @@ jobs:
           goimports -w "${FILES[@]}"
           gofmt -s -w  "${FILES[@]}"
           ```
-          /cc ${{ matrix.assignee }}
-          /assign ${{ matrix.assignee }}
+          /cc ${{ matrix.assignees }}
+          /assign ${{ matrix.assignees }}
 
   misspell:
     name: Fix Misspellings
@@ -664,8 +664,8 @@ jobs:
           export FILES=( $(find . -type f -not -path './vendor/*' -not -path './third_party/*' -not -path './.git/*') )
           misspell -w "${FILES[@]}"
           ```
-          /cc ${{ matrix.assignee }}
-          /assign ${{ matrix.assignee }}
+          /cc ${{ matrix.assignees }}
+          /assign ${{ matrix.assignees }}
 
   update-actions:
     name: Update actions
