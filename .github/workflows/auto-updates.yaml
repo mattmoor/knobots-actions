@@ -859,5 +859,5 @@ jobs:
           cp $(find "${GITHUB_WORKSPACE}/meta/workflow-templates" -type f -name '*.yaml') \
             "${GITHUB_WORKSPACE}/main/.github/workflows/"
           ```
-          /cc ${{ matrix.assignee }}
-          /assign ${{ matrix.assignee }}
+          /cc ${{ matrix.assignees }}
+          /assign ${{ matrix.assignees }}
