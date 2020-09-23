@@ -829,6 +829,7 @@ jobs:
     - name: Copy Actions
       shell: bash
       run: |
+        mkdir -p "${GITHUB_WORKSPACE}/main/.github/workflows/"
         cp $(find "${GITHUB_WORKSPACE}/meta/workflow-templates" -type f -name '*.yaml') \
           "${GITHUB_WORKSPACE}/main/.github/workflows/"
 
