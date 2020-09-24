@@ -139,6 +139,16 @@
   fork: 'mattmoor/knative-gcp'
   channel: '@nachocano'
   assignees: nachocano grantr ian-mi
+- name: 'google/go-containerregistry'
+  meta-organization: 'knative' # Pull actions from the Knative org.
+  fork: 'mattmoor/go-containerregistry'
+  channel: 'ggcr'
+  assignees: '@jonjohnsonjr @ImJasonH'
+- name: 'google/ko'
+  meta-organization: 'knative' # Pull actions from the Knative org.
+  fork: 'mattmoor/ko'
+  channel: 'ko'
+  assignees: '@jonjohnsonjr @ImJasonH'
 
 # vmware-tanzu
 - name: 'vmware-tanzu/sources-for-knative'
