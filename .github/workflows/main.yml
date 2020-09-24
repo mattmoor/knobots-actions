@@ -1,0 +1,110 @@
+# Copyright 2020 The Knative Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: Auto Updates
+
+on:
+  push:
+    branches: [ 'master' ]
+
+#  schedule:
+#    - cron: '0 1,13 * * 1-5' # 6am/pm Pacific on weekdays
+
+jobs:
+  update-actions:
+    name: Update actions
+    needs: meta
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # Keep running if one leg fails.
+      matrix:
+        name:
+          - 'mattmoor/boilerplate-check'
+
+        include:
+          - name: 'mattmoor/boilerplate-check'
+            meta-organization: 'knative'
+            repository: 'boilerplate-check'
+            channel: '@mattmoor'
+            assignees: '@mattmoor'
+
+    env:
+      GO111MODULE: on
+
+    steps:
+
+    - name: Check out code onto GOPATH
+      uses: actions/checkout@v2
+      with:
+        path: main
+        repository: ${{ matrix.name }}
+
+    - name: Check out code onto GOPATH
+      uses: actions/checkout@v2
+      with:
+        path: meta
+        repository: "${{ matrix.meta-organization }}/.github"
+
+    - name: Copy Actions
+      shell: bash
+      run: |
+        mkdir -p "${GITHUB_WORKSPACE}/main/.github/workflows/"
+        cp $(find "${GITHUB_WORKSPACE}/meta/workflow-templates" -type f -name '*.yaml') \
+          "${GITHUB_WORKSPACE}/main/.github/workflows/"
+
+        echo GITHUB_WORKFLOW_URL=https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        # Who to look like
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        committer: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
+        author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
+
+        # Where to stage the change.
+        push-to-fork: mattmoor/${{ matrix.repository }}
+        branch: auto-updates/common-actions
+        signoff: true
+        delete-branch: true
+        path: main
+
+        # Description of the change and PR body.
+        commit-message: 'Update common github actions'
+        title: '[Automated] Update actions'
+        body: |
+          Produced via:
+          ```shell
+          # meta: ${{ matrix.meta-organization }}/.github
+          # main: ${{ matrix.name }}
+          cp $(find "${GITHUB_WORKSPACE}/meta/workflow-templates" -type f -name '*.yaml') \
+            "${GITHUB_WORKSPACE}/main/.github/workflows/"
+          ```
+          /cc ${{ matrix.assignees }}
+          /assign ${{ matrix.assignees }}
+
+    - name: Post failure notice to Slack
+      uses: rtCamp/action-slack-notify@v2.1.0
+      if: ${{ failure() }}
+      env:
+        SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
+        SLACK_USERNAME: sockpuppet
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+        SLACK_CHANNEL: ${{ matrix.channel }}
+        SLACK_COLOR: '#8E1600'
+        MSG_MINIMAL: 'true'
+        SLACK_TITLE: Copy actions for ${{ matrix.name }} failed.
+        SLACK_MESSAGE: |
+          For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
