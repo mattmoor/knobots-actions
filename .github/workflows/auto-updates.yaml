@@ -103,7 +103,7 @@ jobs:
         - name: 'knative/client'
           meta-organization: 'knative'
           repository: 'client'
-          channel: 'client'
+          channel: 'cli'
           assignees: rhuss maximilien
 
         # knative-sandbox (samples)
@@ -360,7 +360,7 @@ jobs:
         - name: 'knative/client'
           meta-organization: 'knative'
           repository: 'client'
-          channel: 'client'
+          channel: 'cli'
           assignees: rhuss maximilien
 
         # knative-sandbox (samples)
@@ -620,7 +620,7 @@ jobs:
         - name: 'knative/client'
           meta-organization: 'knative'
           repository: 'client'
-          channel: 'client'
+          channel: 'cli'
           assignees: rhuss maximilien
 
         # knative-sandbox (samples)
@@ -875,7 +875,7 @@ jobs:
         - name: 'knative/client'
           meta-organization: 'knative'
           repository: 'client'
-          channel: 'client'
+          channel: 'cli'
           assignees: rhuss maximilien
 
         # knative-sandbox (samples)
