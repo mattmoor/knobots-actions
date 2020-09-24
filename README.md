@@ -15,8 +15,9 @@ To add a repository here, there are two requirements:
       # Actions are pulled from the workflow-templates directory.
       meta-organization: 'knative'
 
-      # repository is the name of the repository within the organization.
-      repository: 'pkg'
+      # fork is the name of the fork to push to (otherwise a branch on the
+      # main repo is used)
+      fork: 'mattmoor/pkg'
 
       # channel is the channel on knative.slack.com to post when these actions fail.
       # These can be a direct-message to a username if prefixed with `@`
@@ -26,7 +27,8 @@ To add a repository here, there are two requirements:
       assignees: n3wscott vagababov
    ```
 
-2. A fork under `github.com/mattmoor/{repository}.git`
+2. `github.com/{fork}.git` must be a fork of `{name}` (if specified) and `mattmoor`
+  must have push access.
 
 
 Repos can also optionally exclude certain jobs by adding their name to the appropriate `{foo}-exclude.yaml` file.

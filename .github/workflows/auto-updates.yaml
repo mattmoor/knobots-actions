@@ -133,7 +133,7 @@ jobs:
         author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
 
         # Where to stage the change.
-        push-to-fork: mattmoor/${{ matrix.repository }}
+        push-to-fork: ${{ matrix.fork }}
         branch: auto-updates/update-deps
         signoff: true
         delete-branch: true
@@ -218,7 +218,7 @@ jobs:
         author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
 
         # Where to stage the change.
-        push-to-fork: mattmoor/${{ matrix.repository }}
+        push-to-fork: ${{ matrix.fork }}
         branch: auto-updates/gotools
         signoff: true
         delete-branch: true
@@ -303,7 +303,7 @@ jobs:
         author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
 
         # Where to stage the change.
-        push-to-fork: mattmoor/${{ matrix.repository }}
+        push-to-fork: ${{ matrix.fork }}
         branch: auto-updates/client9-misspell
         signoff: true
         delete-branch: true
@@ -380,7 +380,7 @@ jobs:
         author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
 
         # Where to stage the change.
-        push-to-fork: mattmoor/${{ matrix.repository }}
+        push-to-fork: ${{ matrix.fork }}
         branch: auto-updates/common-actions
         signoff: true
         delete-branch: true

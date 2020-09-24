@@ -3,146 +3,152 @@
 # knative
 - name: 'knative/pkg'
   meta-organization: 'knative'
-  repository: 'pkg'
+  fork: 'mattmoor/pkg'
   channel: 'serving-api'
   assignees: n3wscott vagababov
 - name: 'knative/caching'
   meta-organization: 'knative'
-  repository: 'caching'
+  fork: 'mattmoor/caching'
   channel: 'serving-api'
   assignees: n3wscott vagababov
 - name: 'knative/networking'
   meta-organization: 'knative'
-  repository: 'networking'
+  fork: 'mattmoor/networking'
   channel: 'networking'
   assignees: tcnghia nak3 ZhiminXiang
 - name: 'knative/serving'
   meta-organization: 'knative'
-  repository: 'serving'
+  fork: 'mattmoor/serving'
   channel: 'serving-api'
   assignees: dprotaso vagababov
 - name: 'knative/eventing'
   meta-organization: 'knative'
-  repository: 'eventing'
+  fork: 'mattmoor/eventing'
   channel: 'eventing'
   assignees: n3wscott grantr matzew
 - name: 'knative/eventing-contrib'
   meta-organization: 'knative'
-  repository: 'eventing-contrib'
+  fork: 'mattmoor/eventing-contrib'
   channel: 'eventing'
   assignees: n3wscott grantr lberk matzew
 - name: 'knative/operator'
   meta-organization: 'knative'
-  repository: 'operator'
+  fork: 'mattmoor/operator'
   channel: 'operations'
   assignees: houshengbo
 - name: 'knative/test-infra'
   meta-organization: 'knative'
-  repository: 'test-infra'
+  fork: 'mattmoor/test-infra'
   channel: 'productivity'
   assignees: chaodaig chizhg
 - name: 'knative/docs'
   meta-organization: 'knative'
-  repository: 'docs'
+  fork: 'mattmoor/docs'
   channel: 'docs'
   assignees: abrennan89 dprotaso vaikas
 - name: 'knative/client'
   meta-organization: 'knative'
-  repository: 'client'
+  fork: 'mattmoor/client'
   channel: 'cli'
   assignees: rhuss maximilien
 
 # knative-sandbox (samples)
 - name: 'knative-sandbox/sample-controller'
   meta-organization: 'knative-sandbox'
-  repository: 'sample-controller'
+  fork: 'mattmoor/sample-controller'
   channel: 'serving-api'
   assignees: n3wscott vaikas
 - name: 'knative-sandbox/sample-source'
   meta-organization: 'knative-sandbox'
-  repository: 'sample-source'
+  fork: 'mattmoor/sample-source'
   channel: 'eventing-sources'
   assignees: n3wscott lberk
 
 # knative-sandbox (eventing)
 - name: 'knative-sandbox/eventing-rabbitmq'
   meta-organization: 'knative-sandbox'
-  repository: 'eventing-rabbitmq'
+  fork: 'mattmoor/eventing-rabbitmq'
   channel: 'eventing-delivery'
   assignees: n3wscott vaikas
 - name: 'knative-sandbox/discovery'
   meta-organization: 'knative-sandbox'
-  repository: 'discovery'
+  fork: 'mattmoor/discovery'
   channel: 'eventing-sources'
   assignees: n3wscott vaikas
 - name: 'knative-sandbox/eventing-kafka-broker'
   meta-organization: 'knative-sandbox'
-  repository: 'eventing-kafka-broker'
+  fork: 'mattmoor/eventing-kafka-broker'
   channel: 'eventing-delivery'
   assignees: slinkydeveloper
 - name: 'knative-sandbox/eventing-github'
   meta-organization: 'knative-sandbox'
-  repository: 'eventing-github'
+  fork: 'mattmoor/eventing-github'
   channel: 'eventing-sources'
   assignees: lionelvillard lberk
 - name: 'knative-sandbox/eventing-natss'
   meta-organization: 'knative-sandbox'
-  repository: 'eventing-natss'
+  fork: 'mattmoor/eventing-natss'
   channel: 'eventing-delivery'
   assignees: lionelvillard lberk
 
 # knative-sandbox (networking)
 - name: 'knative-sandbox/net-contour'
   meta-organization: 'knative-sandbox'
-  repository: 'net-contour'
+  fork: 'mattmoor/net-contour'
   assignees: tcnghia n3wscott
 - name: 'knative-sandbox/net-kourier'
   meta-organization: 'knative-sandbox'
-  repository: 'net-kourier'
+  fork: 'mattmoor/net-kourier'
   assignees: davidor markusthoemmes
 - name: 'knative-sandbox/net-istio'
   meta-organization: 'knative-sandbox'
-  repository: 'net-istio'
+  fork: 'mattmoor/net-istio'
   channel: 'net-istio'
   assignees: nak3 ZhiminXiang
 - name: 'knative-sandbox/net-http01'
   meta-organization: 'knative-sandbox'
-  repository: 'net-http01'
+  fork: 'mattmoor/net-http01'
   channel: 'net-http01'
   assignees: dprotaso tcnghia ZhiminXiang
 - name: 'knative-sandbox/net-certmanager'
   meta-organization: 'knative-sandbox'
-  repository: 'net-certmanager'
+  fork: 'mattmoor/net-certmanager'
   channel: 'net-certmanager'
   assignees: ZhiminXiang
 
 # tektoncd
 - name: 'tektoncd/pipeline'
   meta-organization: 'knative' # Pull actions from the Knative org.
-  repository: 'pipeline'
+  fork: 'mattmoor/pipeline'
   channel: '@vdemeester'
   assignees: vdemeester ImJasonH
 - name: 'tektoncd/triggers'
   meta-organization: 'knative' # Pull actions from the Knative org.
-  repository: 'triggers'
+  fork: 'mattmoor/triggers'
   channel: '@ImJasonH'
   assignees: dibyom ImJasonH
 
 # google
 - name: 'google/exposure-notifications-server'
   meta-organization: 'knative' # Pull actions from the Knative org.
-  repository: 'exposure-notifications-server'
+  fork: 'mattmoor/exposure-notifications-server'
   channel: '@helmick'
   assignees: mikehelmick
 - name: 'google/knative-gcp'
   meta-organization: 'knative' # Pull actions from the Knative org.
-  repository: 'knative-gcp'
+  fork: 'mattmoor/knative-gcp'
   channel: '@nachocano'
   assignees: nachocano grantr ian-mi
 
 # vmware-tanzu
 - name: 'vmware-tanzu/sources-for-knative'
   meta-organization: 'knative' # Pull actions from the Knative org.
-  repository: 'sources-for-knative'
+  fork: 'mattmoor/sources-for-knative'
   channel: 'vmware-sources'
   assignees: we don't use Prow
+
+# mattmoor
+- name: 'mattmoor/boilerplate-check'
+  meta-organization: 'knative' # Pull actions from the Knative org.
+  channel: '@mattmoor'
+  assignees: '@mattmoor'
