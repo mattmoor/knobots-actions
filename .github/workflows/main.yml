@@ -34,7 +34,7 @@ jobs:
         include:
           - name: 'mattmoor/boilerplate-check'
             meta-organization: 'knative'
-            repository: 'boilerplate-check'
+            repository: ''
             channel: '@mattmoor'
             assignees: '@mattmoor'
 
@@ -73,7 +73,7 @@ jobs:
         author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
 
         # Where to stage the change.
-        push-to-fork: mattmoor/${{ matrix.repository }}
+        push-to-fork: ${{ matrix.repository }}
         branch: auto-updates/common-actions
         signoff: true
         delete-branch: true
