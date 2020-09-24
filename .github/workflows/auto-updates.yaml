@@ -15,6 +15,9 @@
 name: Auto Updates
 
 on:
+  push:
+    branches: [ 'master' ]
+
   schedule:
     - cron: '0 1,13 * * 1-5' # 6am/pm Pacific on weekdays
 
