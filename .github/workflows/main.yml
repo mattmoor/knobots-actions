@@ -24,7 +24,6 @@ on:
 jobs:
   update-actions:
     name: Update actions
-    needs: meta
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false # Keep running if one leg fails.
