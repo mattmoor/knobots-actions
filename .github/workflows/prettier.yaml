@@ -56,7 +56,7 @@ jobs:
     - name: Run prettier
       shell: bash
       run: |
-        npm install --global prettier
+        sudo npm install --global prettier
 
         prettier --write --prose-wrap=always $(find -name '*.md' | grep -v vendor | grep -v .github | grep -v docs/cmd/)
 
