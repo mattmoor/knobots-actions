@@ -80,6 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false # Keep running if one leg fails.
+      max-parallel: 5
       matrix:
         name: ${{fromJson(needs.meta.outputs.deps-names)}}
         include: ${{fromJson(needs.meta.outputs.deps-include)}}
@@ -171,6 +172,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false # Keep running if one leg fails.
+      max-parallel: 5
       matrix:
         name: ${{fromJson(needs.meta.outputs.gotool-names)}}
         include: ${{fromJson(needs.meta.outputs.gotool-include)}}
@@ -255,6 +257,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false # Keep running if one leg fails.
+      max-parallel: 5
       matrix:
         name: ${{fromJson(needs.meta.outputs.misspell-names)}}
         include: ${{fromJson(needs.meta.outputs.misspell-include)}}
@@ -337,6 +340,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false # Keep running if one leg fails.
+      max-parallel: 5
       matrix:
         name: ${{fromJson(needs.meta.outputs.actions-names)}}
         include: ${{fromJson(needs.meta.outputs.actions-include)}}
@@ -414,6 +418,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false # Keep running if one leg fails.
+      max-parallel: 5
       matrix:
         name: ${{fromJson(needs.meta.outputs.prettier-names)}}
         include: ${{fromJson(needs.meta.outputs.prettier-include)}}
