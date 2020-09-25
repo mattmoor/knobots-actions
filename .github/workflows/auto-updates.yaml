@@ -33,6 +33,8 @@ jobs:
       gotool-names: ${{ steps.load-matrix.outputs.gotool-names }}
       misspell-include: ${{ steps.load-matrix.outputs.misspell-include }}
       misspell-names: ${{ steps.load-matrix.outputs.misspell-names }}
+      prettier-include: ${{ steps.load-matrix.outputs.prettier-include }}
+      prettier-names: ${{ steps.load-matrix.outputs.prettier-names }}
     steps:
     - name: Check out code onto GOPATH
       uses: actions/checkout@v2
@@ -58,7 +60,7 @@ jobs:
           filtered_repos "$1" | jq -c "map(.name)"
         }
 
-        for x in actions deps gotool misspell ; do
+        for x in actions deps gotool misspell prettier ; do
           echo "::group::Matrix names for $x"
           filtered_names $x-exclude.yaml | jq .
           echo "::endgroup::"
@@ -78,6 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false # Keep running if one leg fails.
+      max-parallel: 5
       matrix:
         name: ${{fromJson(needs.meta.outputs.deps-names)}}
         include: ${{fromJson(needs.meta.outputs.deps-include)}}
@@ -169,6 +172,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false # Keep running if one leg fails.
+      max-parallel: 5
       matrix:
         name: ${{fromJson(needs.meta.outputs.gotool-names)}}
         include: ${{fromJson(needs.meta.outputs.gotool-include)}}
@@ -253,6 +257,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false # Keep running if one leg fails.
+      max-parallel: 5
       matrix:
         name: ${{fromJson(needs.meta.outputs.misspell-names)}}
         include: ${{fromJson(needs.meta.outputs.misspell-include)}}
@@ -335,6 +340,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false # Keep running if one leg fails.
+      max-parallel: 5
       matrix:
         name: ${{fromJson(needs.meta.outputs.actions-names)}}
         include: ${{fromJson(needs.meta.outputs.actions-include)}}
@@ -404,5 +410,80 @@ jobs:
         SLACK_COLOR: '#8E1600'
         MSG_MINIMAL: 'true'
         SLACK_TITLE: Copy actions for ${{ matrix.name }} failed.
+        SLACK_MESSAGE: |
+          For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  prettier:
+    name: Format markdown
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # Keep running if one leg fails.
+      max-parallel: 5
+      matrix:
+        name: ${{fromJson(needs.meta.outputs.prettier-names)}}
+        include: ${{fromJson(needs.meta.outputs.prettier-include)}}
+
+    env:
+      GO111MODULE: on
+
+    steps:
+
+    - name: Check out code onto GOPATH
+      uses: actions/checkout@v2
+      with:
+        path: main
+        repository: ${{ matrix.name }}
+
+    - name: Check out code onto GOPATH
+      uses: actions/checkout@v2
+      with:
+        path: meta
+        repository: "${{ matrix.meta-organization }}/.github"
+
+    - name: Run prettier
+      shell: bash
+      run: |
+        sudo npm install --global prettier
+
+        prettier --write --prose-wrap=always $(find -name '*.md' | grep -v vendor | grep -v .github | grep -v docs/cmd/)
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        # Who to look like
+        token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        committer: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
+        author: "Matt Moore (via Sockpuppet) <mattmoor@vmware.com>"
+
+        # Where to stage the change.
+        push-to-fork: ${{ matrix.fork }}
+        branch: auto-updates/format-markdown
+        signoff: true
+        delete-branch: true
+        path: main
+
+        # Description of the change and PR body.
+        commit-message: 'Format markdown'
+        title: '[Automated] Format markdown'
+        body: |
+          Produced via:
+          ```shell
+          prettier --write --prose-wrap=always $(find -name '*.md' | grep -v vendor | grep -v .github | grep -v docs/cmd/)
+          ```
+          /cc ${{ matrix.assignees }}
+          /assign ${{ matrix.assignees }}
+
+    - name: Post failure notice to Slack
+      uses: rtCamp/action-slack-notify@v2.1.0
+      if: ${{ failure() }}
+      env:
+        SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
+        SLACK_USERNAME: sockpuppet
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+        SLACK_CHANNEL: ${{ matrix.channel }}
+        SLACK_COLOR: '#8E1600'
+        MSG_MINIMAL: 'true'
+        SLACK_TITLE: Format markdown for ${{ matrix.name }} failed.
         SLACK_MESSAGE: |
           For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
