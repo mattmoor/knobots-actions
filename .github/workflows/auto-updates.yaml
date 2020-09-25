@@ -198,7 +198,7 @@ jobs:
       shell: bash
       run: |
         export FILES=( $(find -path './vendor' -prune -o -path './third_party' -prune -o -name '*.pb.go' -prune -o -type f -name '*.go' -print) )
-        if ! (( ${#FILES[@]} > 0 )); then
+        if (( ${#FILES[@]} > 0 )); then
           goimports -w "${FILES[@]}"
           gofmt -s -w  "${FILES[@]}"
         else
@@ -282,7 +282,7 @@ jobs:
       shell: bash
       run: |
         export FILES=( $(find . -type f -not -path './vendor/*' -not -path './third_party/*' -not -path './.git/*') )
-        if ! (( ${#FILES[@]} > 0 )); then
+        if (( ${#FILES[@]} > 0 )); then
           misspell -w "${FILES[@]}"
         else
           echo No files found.
