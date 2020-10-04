@@ -162,3 +162,7 @@
   meta-organization: 'knative' # Pull actions from the Knative org.
   channel: '@mattmoor'
   assignees: '@mattmoor'
+- name: 'mattmoor/mink'
+  meta-organization: 'knative' # Pull actions from the Knative org.
+  channel: '@mattmoor'
+  assignees: '@mattmoor'
