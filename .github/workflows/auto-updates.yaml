@@ -125,7 +125,25 @@ jobs:
         # We may pull in code-generator updates, or not have generated code.
         [[ ! -f hack/update-codegen.sh ]] || ./hack/update-codegen.sh
 
+        # If we don't run this before the "git diff-index" it seems to list
+        # every file that's been touched by codegen.
+        git status
+        echo "create_pr=false" >> $GITHUB_ENV
+        for x in $(git diff-index --name-only HEAD --); do
+          if [ "$(basename $x)" = "go.mod" ]; then
+            continue
+          elif [ "$(basename $x)" = "go.sum" ]; then
+            continue
+          elif [ "$(basename $x)" = "modules.txt" ]; then
+            continue
+          fi
+          echo "Found non-module diff: $x"
+          echo "create_pr=true" >> $GITHUB_ENV
+          break
+        done
+
     - name: Create Pull Request
+      if: env.create_pr == 'true'
       uses: peter-evans/create-pull-request@v3
       with:
         # Who to look like
