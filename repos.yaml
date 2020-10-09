@@ -91,6 +91,7 @@
   meta-organization: 'knative-sandbox'
   fork: 'mattmoor/net-contour'
   assignees: tcnghia n3wscott
+  pr-notify: 'net-contour'
 - name: 'knative-sandbox/net-kourier'
   meta-organization: 'knative-sandbox'
   fork: 'mattmoor/net-kourier'
@@ -105,6 +106,7 @@
   fork: 'mattmoor/net-http01'
   channel: 'net-http01'
   assignees: dprotaso tcnghia ZhiminXiang
+  pr-notify: 'net-http01'
 - name: 'knative-sandbox/net-certmanager'
   meta-organization: 'knative-sandbox'
   fork: 'mattmoor/net-certmanager'
@@ -139,19 +141,21 @@
   fork: 'mattmoor/go-containerregistry'
   channel: 'ggcr'
   assignees: '@jonjohnsonjr @ImJasonH'
+  pr-notify: 'ggcr'
 - name: 'google/ko'
   meta-organization: 'knative' # Pull actions from the Knative org.
   fork: 'mattmoor/ko'
   channel: 'ko'
   assignees: '@jonjohnsonjr @ImJasonH'
+  pr-notify: 'ko'
 
 # vmware-tanzu
 - name: 'vmware-tanzu/sources-for-knative'
   meta-organization: 'knative' # Pull actions from the Knative org.
   fork: 'mattmoor/sources-for-knative'
   channel: 'vmware-sources'
-  pr-notify: 'vmware-sources'
   assignees: we don't use Prow
+  pr-notify: 'vmware-sources'
 
 # mattmoor
 - name: 'mattmoor/boilerplate-check'
