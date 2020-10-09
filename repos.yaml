@@ -150,6 +150,7 @@
   meta-organization: 'knative' # Pull actions from the Knative org.
   fork: 'mattmoor/sources-for-knative'
   channel: 'vmware-sources'
+  pr-notify: 'vmware-sources'
   assignees: we don't use Prow
 
 # mattmoor
@@ -157,7 +158,9 @@
   meta-organization: 'knative' # Pull actions from the Knative org.
   channel: '@mattmoor'
   assignees: '@mattmoor'
+  pr-notify: '@mattmoor'
 - name: 'mattmoor/mink'
   meta-organization: 'knative' # Pull actions from the Knative org.
   channel: '@mattmoor'
   assignees: '@mattmoor'
+  pr-notify: '@mattmoor'
