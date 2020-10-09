@@ -40,7 +40,7 @@
   meta-organization: 'knative'
   fork: 'mattmoor/docs'
   channel: 'docs'
-  assignees: abrennan89 dprotaso vaikas
+  assignees: n3wscott dprotaso vaikas
 - name: 'knative/client'
   meta-organization: 'knative'
   fork: 'mattmoor/client'
