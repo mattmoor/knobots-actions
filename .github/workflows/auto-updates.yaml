@@ -88,7 +88,7 @@ jobs:
         done
 
         # Create a properly default property for downstream.
-        if [[ "${{ github.event.inputs.branch }}" != "" ]]
+        if [[ "${{ github.event.inputs.branch }}" != "" ]]; then
           echo "::set-output name=branch::${{ github.event.inputs.branch }}"
         else
           echo "::set-output name=branch::master"
