@@ -6,3 +6,5 @@
 - "google/exposure-notifications-server"
 # Tekton has unresolved issues
 - "tektoncd/pipeline"
+# Generated docs have problems
+- "google/go-containerregistry"
