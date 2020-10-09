@@ -164,6 +164,7 @@ jobs:
         done
 
     - name: Create Pull Request
+      id: cpr
       if: env.create_pr == 'true'
       uses: peter-evans/create-pull-request@v3
       with:
@@ -204,6 +205,21 @@ jobs:
         SLACK_TITLE: "[${{ needs.meta.outputs.branch }}] Updating dependencies for ${{ matrix.name }} failed."
         SLACK_MESSAGE: |
           For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+    - name: Notify of pending pull request.
+      uses: rtCamp/action-slack-notify@v2.1.0
+      if: ${{ matrix.pr-notify != '' }}
+      env:
+        SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
+        SLACK_USERNAME: sockpuppet
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+        SLACK_CHANNEL: ${{ matrix.pr-notify }}
+        SLACK_COLOR: '#228B22'
+        MSG_MINIMAL: 'true'
+        SLACK_TITLE: "Staged PR for ${{ matrix.name }}."
+        SLACK_MESSAGE: |
+          Please review: ${{ steps.cpr.outputs.pull-request-url }}
 
   gotool:
     name: Go Format and Imports
@@ -249,6 +265,7 @@ jobs:
         fi
 
     - name: Create Pull Request
+      id: cpr
       uses: peter-evans/create-pull-request@v3
       with:
         # Who to look like
@@ -289,6 +306,21 @@ jobs:
         SLACK_TITLE: Format Go code for ${{ matrix.name }} failed.
         SLACK_MESSAGE: |
           For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+    - name: Notify of pending pull request.
+      uses: rtCamp/action-slack-notify@v2.1.0
+      if: ${{ matrix.pr-notify != '' }}
+      env:
+        SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
+        SLACK_USERNAME: sockpuppet
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+        SLACK_CHANNEL: ${{ matrix.pr-notify }}
+        SLACK_COLOR: '#228B22'
+        MSG_MINIMAL: 'true'
+        SLACK_TITLE: "Staged PR for ${{ matrix.name }}."
+        SLACK_MESSAGE: |
+          Please review: ${{ steps.cpr.outputs.pull-request-url }}
 
   misspell:
     name: Fix Misspellings
@@ -333,6 +365,7 @@ jobs:
         fi
 
     - name: Create Pull Request
+      id: cpr
       uses: peter-evans/create-pull-request@v3
       with:
         # Who to look like
@@ -373,6 +406,21 @@ jobs:
         SLACK_MESSAGE: |
           For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
+    - name: Notify of pending pull request.
+      uses: rtCamp/action-slack-notify@v2.1.0
+      if: ${{ matrix.pr-notify != '' }}
+      env:
+        SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
+        SLACK_USERNAME: sockpuppet
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+        SLACK_CHANNEL: ${{ matrix.pr-notify }}
+        SLACK_COLOR: '#228B22'
+        MSG_MINIMAL: 'true'
+        SLACK_TITLE: "Staged PR for ${{ matrix.name }}."
+        SLACK_MESSAGE: |
+          Please review: ${{ steps.cpr.outputs.pull-request-url }}
+
   update-actions:
     name: Update actions
     needs: meta
@@ -409,6 +457,7 @@ jobs:
           "${GITHUB_WORKSPACE}/main/.github/workflows/"
 
     - name: Create Pull Request
+      id: cpr
       uses: peter-evans/create-pull-request@v3
       with:
         # Who to look like
@@ -452,6 +501,21 @@ jobs:
         SLACK_MESSAGE: |
           For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
+    - name: Notify of pending pull request.
+      uses: rtCamp/action-slack-notify@v2.1.0
+      if: ${{ matrix.pr-notify != '' }}
+      env:
+        SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
+        SLACK_USERNAME: sockpuppet
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+        SLACK_CHANNEL: ${{ matrix.pr-notify }}
+        SLACK_COLOR: '#228B22'
+        MSG_MINIMAL: 'true'
+        SLACK_TITLE: "Staged PR for ${{ matrix.name }}."
+        SLACK_MESSAGE: |
+          Please review: ${{ steps.cpr.outputs.pull-request-url }}
+
   prettier:
     name: Format markdown
     runs-on: ubuntu-latest
@@ -488,6 +552,7 @@ jobs:
         prettier --write --prose-wrap=always $(find -name '*.md' | grep -v vendor | grep -v .github | grep -v docs/cmd/)
 
     - name: Create Pull Request
+      id: cpr
       uses: peter-evans/create-pull-request@v3
       with:
         # Who to look like
@@ -527,3 +592,18 @@ jobs:
         SLACK_TITLE: Format markdown for ${{ matrix.name }} failed.
         SLACK_MESSAGE: |
           For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+    - name: Notify of pending pull request.
+      uses: rtCamp/action-slack-notify@v2.1.0
+      if: ${{ matrix.pr-notify != '' }}
+      env:
+        SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
+        SLACK_USERNAME: sockpuppet
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+        SLACK_CHANNEL: ${{ matrix.pr-notify }}
+        SLACK_COLOR: '#228B22'
+        MSG_MINIMAL: 'true'
+        SLACK_TITLE: "Staged PR for ${{ matrix.name }}."
+        SLACK_MESSAGE: |
+          Please review: ${{ steps.cpr.outputs.pull-request-url }}
