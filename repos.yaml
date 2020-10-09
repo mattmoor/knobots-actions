@@ -26,11 +26,6 @@
   fork: 'mattmoor/eventing'
   channel: 'eventing'
   assignees: n3wscott grantr matzew
-- name: 'knative/eventing-contrib'
-  meta-organization: 'knative'
-  fork: 'mattmoor/eventing-contrib'
-  channel: 'eventing'
-  assignees: n3wscott grantr lberk matzew
 - name: 'knative/operator'
   meta-organization: 'knative'
   fork: 'mattmoor/operator'
