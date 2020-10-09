@@ -167,7 +167,7 @@ jobs:
 
         # Where to stage the change.
         push-to-fork: ${{ matrix.fork }}
-        branch: auto-updates/update-deps
+        branch: auto-updates/update-deps-${{ github.event.inputs.branch }}
         signoff: true
         delete-branch: true
 
