@@ -208,7 +208,7 @@ jobs:
 
     - name: Notify of pending pull request.
       uses: rtCamp/action-slack-notify@v2.1.0
-      if: ${{ matrix.pr-notify != '' }}
+      if: ${{ matrix.pr-notify != '' && steps.cpr.outputs.pull-request-url != '' }}
       env:
         SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
         SLACK_USERNAME: sockpuppet
@@ -309,7 +309,7 @@ jobs:
 
     - name: Notify of pending pull request.
       uses: rtCamp/action-slack-notify@v2.1.0
-      if: ${{ matrix.pr-notify != '' }}
+      if: ${{ matrix.pr-notify != '' && steps.cpr.outputs.pull-request-url != '' }}
       env:
         SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
         SLACK_USERNAME: sockpuppet
@@ -408,7 +408,7 @@ jobs:
 
     - name: Notify of pending pull request.
       uses: rtCamp/action-slack-notify@v2.1.0
-      if: ${{ matrix.pr-notify != '' }}
+      if: ${{ matrix.pr-notify != '' && steps.cpr.outputs.pull-request-url != '' }}
       env:
         SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
         SLACK_USERNAME: sockpuppet
@@ -503,7 +503,7 @@ jobs:
 
     - name: Notify of pending pull request.
       uses: rtCamp/action-slack-notify@v2.1.0
-      if: ${{ matrix.pr-notify != '' }}
+      if: ${{ matrix.pr-notify != '' && steps.cpr.outputs.pull-request-url != '' }}
       env:
         SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
         SLACK_USERNAME: sockpuppet
@@ -595,7 +595,7 @@ jobs:
 
     - name: Notify of pending pull request.
       uses: rtCamp/action-slack-notify@v2.1.0
-      if: ${{ matrix.pr-notify != '' }}
+      if: ${{ matrix.pr-notify != '' && steps.cpr.outputs.pull-request-url != '' }}
       env:
         SLACK_ICON: http://github.com/mattmoor-sockpuppet.png?size=48
         SLACK_USERNAME: sockpuppet
