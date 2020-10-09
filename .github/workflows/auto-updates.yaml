@@ -21,6 +21,13 @@ on:
   schedule:
     - cron: '0 1,13 * * 1-5' # 6am/pm Pacific on weekdays
 
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch name'
+        required: true
+        default: 'master'
+
 jobs:
   meta:
     runs-on: ubuntu-latest
@@ -69,8 +76,14 @@ jobs:
           filtered_repos $x-exclude.yaml | jq .
           echo "::endgroup::"
 
-          echo "::set-output name=$x-include::$(filtered_repos $x-exclude.yaml)"
-          echo "::set-output name=$x-names::$(filtered_names $x-exclude.yaml)"
+          # Only run update-deps on release-branches.
+          if [[ "${{ github.event.inputs.branch }}" != "master" ]] && [[ "$x" != "deps" ]]; then
+            echo "::set-output name=$x-include::[]"
+            echo "::set-output name=$x-names::[]"
+          else
+            echo "::set-output name=$x-include::$(filtered_repos $x-exclude.yaml)"
+            echo "::set-output name=$x-names::$(filtered_names $x-exclude.yaml)"
+          fi
         done
 
 
@@ -100,6 +113,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: ${{ matrix.name }}
+        ref: ${{ github.event.inputs.branch }}
 
     - name: Install Dependencies
       run: |
@@ -159,7 +173,7 @@ jobs:
 
         # Description of the change and PR body.
         commit-message: 'upgrade to latest dependencies'
-        title: '[Automated] Upgrade to latest dependencies'
+        title: '[${{ github.event.inputs.branch }}] Upgrade to latest dependencies'
         body: |
           Produced via:
           ```shell
@@ -180,7 +194,7 @@ jobs:
         SLACK_CHANNEL: ${{ matrix.channel }}
         SLACK_COLOR: '#8E1600'
         MSG_MINIMAL: 'true'
-        SLACK_TITLE: Updating dependencies for ${{ matrix.name }} failed.
+        SLACK_TITLE: "[${{ github.event.inputs.branch }}] Updating dependencies for ${{ matrix.name }} failed."
         SLACK_MESSAGE: |
           For detailed logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
