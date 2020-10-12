@@ -46,6 +46,7 @@
   fork: 'mattmoor/client'
   channel: 'cli'
   assignees: rhuss maximilien
+  pr-notify: 'cli'
 
 # knative-sandbox (samples)
 - name: 'knative-sandbox/sample-controller'
