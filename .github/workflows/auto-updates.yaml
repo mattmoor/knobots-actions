@@ -214,7 +214,7 @@ jobs:
         SLACK_USERNAME: sockpuppet
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
-        SLACK_CHANNEL: ${{ matrix.pr-notify }}
+        SLACK_CHANNEL: ${{ matrix.channel }}
         SLACK_COLOR: '#228B22'
         MSG_MINIMAL: 'true'
         SLACK_TITLE: "Staged update-deps PR for ${{ matrix.name }}."
@@ -315,7 +315,7 @@ jobs:
         SLACK_USERNAME: sockpuppet
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
-        SLACK_CHANNEL: ${{ matrix.pr-notify }}
+        SLACK_CHANNEL: ${{ matrix.channel }}
         SLACK_COLOR: '#228B22'
         MSG_MINIMAL: 'true'
         SLACK_TITLE: "Staged gofmt PR for ${{ matrix.name }}."
@@ -414,7 +414,7 @@ jobs:
         SLACK_USERNAME: sockpuppet
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
-        SLACK_CHANNEL: ${{ matrix.pr-notify }}
+        SLACK_CHANNEL: ${{ matrix.channel }}
         SLACK_COLOR: '#228B22'
         MSG_MINIMAL: 'true'
         SLACK_TITLE: "Staged misspell PR for ${{ matrix.name }}."
@@ -509,7 +509,7 @@ jobs:
         SLACK_USERNAME: sockpuppet
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
-        SLACK_CHANNEL: ${{ matrix.pr-notify }}
+        SLACK_CHANNEL: ${{ matrix.channel }}
         SLACK_COLOR: '#228B22'
         MSG_MINIMAL: 'true'
         SLACK_TITLE: "Staged actions-sync PR for ${{ matrix.name }}."
@@ -601,7 +601,7 @@ jobs:
         SLACK_USERNAME: sockpuppet
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
-        SLACK_CHANNEL: ${{ matrix.pr-notify }}
+        SLACK_CHANNEL: ${{ matrix.channel }}
         SLACK_COLOR: '#228B22'
         MSG_MINIMAL: 'true'
         SLACK_TITLE: "Staged prettier PR for ${{ matrix.name }}."
