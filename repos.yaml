@@ -16,6 +16,7 @@
   fork: 'mattmoor/networking'
   channel: 'networking'
   assignees: tcnghia nak3 ZhiminXiang
+  pr-notify: 'networking'
 - name: 'knative/serving'
   meta-organization: 'knative'
   fork: 'mattmoor/serving'
@@ -91,17 +92,21 @@
 - name: 'knative-sandbox/net-contour'
   meta-organization: 'knative-sandbox'
   fork: 'mattmoor/net-contour'
+  channel: 'net-contour'
   assignees: tcnghia n3wscott
   pr-notify: 'net-contour'
 - name: 'knative-sandbox/net-kourier'
   meta-organization: 'knative-sandbox'
   fork: 'mattmoor/net-kourier'
-  assignees: davidor markusthoemmes
+  channel: 'net-kourier'
+  assignees: davidor markusthoemmes tcnghia
+  pr-notify: net-kourier
 - name: 'knative-sandbox/net-istio'
   meta-organization: 'knative-sandbox'
   fork: 'mattmoor/net-istio'
   channel: 'net-istio'
-  assignees: nak3 ZhiminXiang
+  assignees: nak3 ZhiminXiang tcnghia
+  pr-notify: 'net-istio'
 - name: 'knative-sandbox/net-http01'
   meta-organization: 'knative-sandbox'
   fork: 'mattmoor/net-http01'
@@ -112,7 +117,8 @@
   meta-organization: 'knative-sandbox'
   fork: 'mattmoor/net-certmanager'
   channel: 'net-certmanager'
-  assignees: ZhiminXiang
+  assignees: ZhiminXiang tcnghia
+  pr-notify: 'net-certmanager'
 
 # tektoncd
 - name: 'tektoncd/pipeline'
