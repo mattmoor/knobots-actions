@@ -16,7 +16,7 @@
   fork: 'mattmoor/networking'
   channel: 'networking'
   assignees: tcnghia nak3 ZhiminXiang
-  pr-notify: 'networking'
+  pr-notify: 'true'
 - name: 'knative/serving'
   meta-organization: 'knative'
   fork: 'mattmoor/serving'
@@ -47,7 +47,7 @@
   fork: 'mattmoor/client'
   channel: 'cli'
   assignees: rhuss maximilien
-  pr-notify: 'cli'
+  pr-notify: 'true'
 
 # knative-sandbox (samples)
 - name: 'knative-sandbox/sample-controller'
@@ -94,31 +94,31 @@
   fork: 'mattmoor/net-contour'
   channel: 'net-contour'
   assignees: tcnghia n3wscott
-  pr-notify: 'net-contour'
+  pr-notify: 'true'
 - name: 'knative-sandbox/net-kourier'
   meta-organization: 'knative-sandbox'
   fork: 'mattmoor/net-kourier'
   channel: 'net-kourier'
   assignees: davidor markusthoemmes tcnghia
-  pr-notify: net-kourier
+  pr-notify: 'true'
 - name: 'knative-sandbox/net-istio'
   meta-organization: 'knative-sandbox'
   fork: 'mattmoor/net-istio'
   channel: 'net-istio'
   assignees: nak3 ZhiminXiang tcnghia
-  pr-notify: 'net-istio'
+  pr-notify: 'true'
 - name: 'knative-sandbox/net-http01'
   meta-organization: 'knative-sandbox'
   fork: 'mattmoor/net-http01'
   channel: 'net-http01'
   assignees: dprotaso tcnghia ZhiminXiang
-  pr-notify: 'net-http01'
+  pr-notify: 'true'
 - name: 'knative-sandbox/net-certmanager'
   meta-organization: 'knative-sandbox'
   fork: 'mattmoor/net-certmanager'
   channel: 'net-certmanager'
   assignees: ZhiminXiang tcnghia
-  pr-notify: 'net-certmanager'
+  pr-notify: 'true'
 
 # tektoncd
 - name: 'tektoncd/pipeline'
@@ -148,13 +148,13 @@
   fork: 'mattmoor/go-containerregistry'
   channel: 'ggcr'
   assignees: '@jonjohnsonjr @ImJasonH'
-  pr-notify: 'ggcr'
+  pr-notify: 'true'
 - name: 'google/ko'
   meta-organization: 'knative' # Pull actions from the Knative org.
   fork: 'mattmoor/ko'
   channel: 'ko'
   assignees: '@jonjohnsonjr @ImJasonH'
-  pr-notify: 'ko'
+  pr-notify: 'true'
 
 # vmware-tanzu
 - name: 'vmware-tanzu/sources-for-knative'
@@ -162,16 +162,16 @@
   fork: 'mattmoor/sources-for-knative'
   channel: 'vmware-sources'
   assignees: we don't use Prow
-  pr-notify: 'vmware-sources'
+  pr-notify: 'true'
 
 # mattmoor
 - name: 'mattmoor/boilerplate-check'
   meta-organization: 'knative' # Pull actions from the Knative org.
   channel: '@mattmoor'
   assignees: '@mattmoor'
-  pr-notify: '@mattmoor'
+  pr-notify: 'true'
 - name: 'mattmoor/mink'
   meta-organization: 'knative' # Pull actions from the Knative org.
   channel: 'mink'
   assignees: '@mattmoor'
-  pr-notify: 'mink'
+  pr-notify: 'true'
