@@ -36,7 +36,7 @@
   meta-organization: 'knative'
   fork: 'mattmoor/test-infra'
   channel: 'productivity'
-  assignees: chaodaig chizhg
+  assignees: n3wscott chizhg
 - name: 'knative/docs'
   meta-organization: 'knative'
   fork: 'mattmoor/docs'
