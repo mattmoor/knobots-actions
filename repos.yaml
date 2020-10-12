@@ -166,6 +166,6 @@
   pr-notify: '@mattmoor'
 - name: 'mattmoor/mink'
   meta-organization: 'knative' # Pull actions from the Knative org.
-  channel: '@mattmoor'
+  channel: 'mink'
   assignees: '@mattmoor'
-  pr-notify: '@mattmoor'
+  pr-notify: 'mink'
