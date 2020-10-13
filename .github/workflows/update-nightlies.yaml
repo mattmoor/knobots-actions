@@ -35,7 +35,7 @@ jobs:
         # Map to nightly-specific parameters.
         include:
         - nightly: net-certmanager
-          directory: ./third_party/cert-manager-0.12.0
+          directory: ./third_party/cert-manager-latest
           files: net-certmanager.yaml
         - nightly: net-contour
           directory: ./third_party/contour-latest
