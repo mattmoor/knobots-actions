@@ -77,6 +77,11 @@
   fork: 'mattmoor/eventing-kafka-broker'
   channel: 'eventing-delivery'
   assignees: slinkydeveloper
+- name: 'knative-sandbox/eventing-kafka'
+  meta-organization: 'knative-sandbox'
+  fork: 'mattmoor/eventing-kafka'
+  channel: 'eventing-delivery'
+  assignees: matzew slinkydeveloper
 - name: 'knative-sandbox/eventing-github'
   meta-organization: 'knative-sandbox'
   fork: 'mattmoor/eventing-github'
